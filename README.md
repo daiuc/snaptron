@@ -1,3 +1,6 @@
-# snaptron
+# snaptron analyses
+
+## Authors: 
+- Chao Dai
 
 
