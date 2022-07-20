@@ -18,3 +18,5 @@
 !**snakemake.sbatch
 !**cluster-config.json
 *.swp
+**/*checkpoints/**
+
