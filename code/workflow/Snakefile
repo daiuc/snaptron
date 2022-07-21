@@ -1,16 +1,32 @@
-# The main entry point of your workflow.
-# After configuring, running snakemake -n in a clone of this repository should successfully execute a dry-run of the workflow.
-
-#include: "rules/common.smk"
 configfile: "config/config.yaml"
+include: "rules/common.smk"
 
-# Instead of using samples.tsv file, a quick/dirty way to apply rules over grob of existing files is this:
-# IDS, = glob_wildcards("Path/To/{MyFileNames}.bed.gz")
+wildcard_constraints:
+    SampleID = '(Exp4_EC[0-9]{3,4})|(TW_[a-zA-Z]+_Rep[12])'
+    # SampleID = '(Exp3_EC[0-9]{3,4})|(TW_[a-zA-Z]+_Rep[12])'
+    # SampleID = '(Exp2_EC[0-9a]{3,4})|(TW_[a-zA-Z]+_Rep[12])'
+
+include: "rules/alignment.smk"
+include: "rules/deeptools.smk"
+include: "rules/CallPeaks.smk"
+
+FEATURE_TYPES = ['Genome', 'GeneBody', 'Promoters',
+                 'TES_Region', 'lncRNA', 'H3K27AC',
+                 'sncRNA', 'miRNA']
+
+# remove GeneBody for ComputeMatrix
+FEATURE_TYPES2 = ['GeneBody', 'Promoters', 'TES_Region',
+                  'lncRNA', 'H3K27AC', 'sncRNA', 'miRNA']
+
+localrules: all
 
 rule all:
     input:
-        # The first rule should define the default target files
-        # Subsequent target rules can be specified below. They should start with all_*.
-
-
-include: "rules/other.smk"
+        expand('results/bwa/{SampleID}.bam', SampleID=SAMPLEIDS),
+        expand('results/BamCoverage/{SampleID}.bw', SampleID=SAMPLEIDS),
+        expand('results/BigwigSummary/{FeatureType}/results.npz', FeatureType=FEATURE_TYPES),
+        expand('results/ComputeMatrix/{FeatureType}/matrix.gz', FeatureType=FEATURE_TYPES2),
+        expand('results/ComputeMatrix/{FeatureType}/heatmap.pdf', FeatureType=FEATURE_TYPES2),
+        expand('results/macs2/bysample/{SampleID}_mergedpeaks.bed', SampleID=SAMPLEIDS),
+        expand('results/macs2/bysample/{SampleID}.counts.summary', SampleID=SAMPLEIDS),
+        'results/macs2/bysample/FRiP.txt'
