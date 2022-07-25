@@ -45,12 +45,18 @@ Processing procedures:
     - filter intron clusters with less than 5 total reads
   4. leafcutterMD
 
+[dag](assets/leafcutterMD.svg)
+
 Issues:
   1. OOM error. Still too many rows when sample number is large, suggest to segment rows into segments of introns
   2. Further reduce intron clusters by some criteria? for instance by range variance? or Max-Min?
   3. Clean up on meta data of TCGA, and especially SRAV
   4. Need to pool all samples of the same tissue type? TCGA are all cancer tissues/cells though.
   5. What is SRAV dataset?
+  
+  
+  
+
 
 ```{r}
 knitr::include_graphics("../docs/assets/leafcutterMD.svg")
