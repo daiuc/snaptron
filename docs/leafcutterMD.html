@@ -298,6 +298,17 @@ $(document).ready(function () {
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#gathered-samples" id="toc-gathered-samples">Gathered
+Samples</a></li>
+<li><a href="#leafcuttermd-output-examples"
+id="toc-leafcuttermd-output-examples">LeafcutterMD output examples</a>
+<ul>
+<li><a href="#gtex-bladder" id="toc-gtex-bladder">GTEx-Bladder</a></li>
+</ul></li>
+</ul>
+</div>
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
@@ -454,15 +465,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontreec2595c736dbd8e11ce31197ed20f2393ea72b842targetblankc2595c7a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree7f75c136619a22e388814761a0ca2d38b68a9177targetblank7f75c13a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/daiuc/snaptron/tree/c2595c736dbd8e11ce31197ed20f2393ea72b842" target="_blank">c2595c7</a>
+<a href="https://github.com/daiuc/snaptron/tree/7f75c136619a22e388814761a0ca2d38b68a9177" target="_blank">7f75c13</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontreec2595c736dbd8e11ce31197ed20f2393ea72b842targetblankc2595c7a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree7f75c136619a22e388814761a0ca2d38b68a9177targetblank7f75c13a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -472,7 +483,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/daiuc/snaptron/tree/c2595c736dbd8e11ce31197ed20f2393ea72b842" target="_blank">c2595c7</a>.
+<a href="https://github.com/daiuc/snaptron/tree/7f75c136619a22e388814761a0ca2d38b68a9177" target="_blank">7f75c13</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -490,6 +501,7 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    code/.snakemake/
     Ignored:    code/.test/
+    Ignored:    code/leafcutterMD.svg
     Ignored:    code/logs/
     Ignored:    code/playground.py.ipynb
     Ignored:    code/resources/
@@ -540,6 +552,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/7f75c136619a22e388814761a0ca2d38b68a9177/analysis/leafcutterMD.Rmd" target="_blank">7f75c13</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-07-25
+</td>
+<td>
+wflow_publish("leafcutterMD.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/daiuc/snaptron/2ecbee7f0a30e07ae62065feae0e01762ed50118/docs/leafcutterMD.html" target="_blank">2ecbee7</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-07-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -632,18 +678,65 @@ wflow_publish("leafcutterMD.Rmd")
 </div>
 </div>
 </div>
+<div id="gathered-samples" class="section level1">
+<h1>Gathered Samples</h1>
+<pre class="r"><code>all_perind_lookup = fread(&quot;../code/resources/All_perind_rail_id_tissue_type_lookup.tsv&quot;)
+
+all_perind_lookup[ds %in% c(&quot;GTEx&quot;, &quot;TCGA&quot;),][
+  , .(.N), by = .(tissue, ds)
+][order(N)]</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["tissue"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ds"],"name":[2],"type":["chr"],"align":["left"]},{"label":["N"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"Fallopian Tube","2":"GTEx","3":"7"},{"1":"Cervix Uteri","2":"GTEx","3":"11"},{"1":"Bladder","2":"GTEx","3":"11"},{"1":"Bone Marrow","2":"TCGA","3":"21"},{"1":"Kidney","2":"GTEx","3":"29"},{"1":"Lymph Nodes","2":"TCGA","3":"35"},{"1":"Bile Duct","2":"TCGA","3":"40"},{"1":"Eye","2":"TCGA","3":"64"},{"1":"Salivary Gland","2":"GTEx","3":"69"},{"1":"Pleura","2":"TCGA","3":"80"},{"1":"Uterus","2":"GTEx","3":"90"},{"1":"Thymus","2":"TCGA","3":"94"},{"1":"Bone Marrow","2":"GTEx","3":"95"},{"1":"Vagina","2":"GTEx","3":"97"},{"1":"Small Intestine","2":"GTEx","3":"104"},{"1":"Ovary","2":"GTEx","3":"106"},{"1":"Prostate","2":"GTEx","3":"108"},{"1":"Spleen","2":"GTEx","3":"116"},{"1":"Pituitary","2":"GTEx","3":"122"},{"1":"Testis","2":"TCGA","3":"122"},{"1":"Liver","2":"GTEx","3":"123"},{"1":"Adrenal Gland","2":"GTEx","3":"152"},{"1":"Pancreas","2":"TCGA","3":"158"},{"1":"Adrenal Gland","2":"TCGA","3":"180"},{"1":"Stomach","2":"GTEx","3":"195"},{"1":"Pancreas","2":"GTEx","3":"197"},{"1":"Esophagus","2":"TCGA","3":"198"},{"1":"Testis","2":"GTEx","3":"203"},{"1":"Uterus","2":"TCGA","3":"204"},{"1":"Breast","2":"GTEx","3":"217"},{"1":"Soft Tissue","2":"TCGA","3":"236"},{"1":"Cervix","2":"TCGA","3":"269"},{"1":"Nerve","2":"GTEx","3":"311"},{"1":"Bladder","2":"TCGA","3":"323"},{"1":"Thyroid","2":"GTEx","3":"341"},{"1":"Lung","2":"GTEx","3":"349"},{"1":"Colon","2":"GTEx","3":"369"},{"1":"Liver","2":"TCGA","3":"372"},{"1":"Colorectal","2":"TCGA","3":"401"},{"1":"Heart","2":"GTEx","3":"413"},{"1":"Ovary","2":"TCGA","3":"428"},{"1":"Stomach","2":"TCGA","3":"445"},{"1":"Skin","2":"TCGA","3":"445"},{"1":"Muscle","2":"GTEx","3":"460"},{"1":"Prostate","2":"TCGA","3":"465"},{"1":"Head and Neck","2":"TCGA","3":"521"},{"1":"Thyroid","2":"TCGA","3":"535"},{"1":"Blood","2":"GTEx","3":"559"},{"1":"Adipose Tissue","2":"GTEx","3":"589"},{"1":"Brain","2":"TCGA","3":"648"},{"1":"Blood Vessel","2":"GTEx","3":"731"},{"1":"Esophagus","2":"GTEx","3":"774"},{"1":"Kidney","2":"TCGA","3":"885"},{"1":"Lung","2":"TCGA","3":"933"},{"1":"Skin","2":"GTEx","3":"945"},{"1":"Brain","2":"GTEx","3":"947"},{"1":"Breast","2":"TCGA","3":"1174"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Total number of samples to be analyzed: 28881, a few hundred less
+than the count table, due to insufficient tissue data available.</p>
+<pre class="r"><code>length(all_perind_lookup$rail_id)</code></pre>
+<pre><code>[1] 28881</code></pre>
+</div>
+<div id="leafcuttermd-output-examples" class="section level1">
+<h1>LeafcutterMD output examples</h1>
+<p>Processing procedures:</p>
+<ol style="list-style-type: decimal">
+<li>produce lookup table (rail_id : [tissue, data source (GTEx, TCGA,
+SRAV)])</li>
+<li>subset count table by tissue and datasource</li>
+<li>prep leafcutterMD input count matrix</li>
+</ol>
+<ul>
+<li>necessary header/numerator data wrangling</li>
+<li>filter intron clusters with less than 5 total reads</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>leafcutterMD</li>
+</ol>
+<p>Issues: 1. OOM error. Still too many rows when sample number is
+large, suggest to segment rows into segments of introns 2. Further
+reduce intron clusters by some criteria? for instance by range variance?
+or Max-Min? 3. Clean up on meta data of TCGA, and especially SRAV 4.
+Need to pool all samples of the same tissue type? TCGA are all cancer
+tissues/cells though. 5. What is SRAV dataset?</p>
+<pre class="r"><code>knitr::include_graphics(&quot;../code/leafcutterMD.svg&quot;)</code></pre>
+<p><img src="../code/leafcutterMD.svg" style="display: block; margin: auto;" /></p>
+<p>Selected samples to run leafcutterMD</p>
+<pre class="r"><code>all_perind_lookup[ds %in% c(&quot;GTEx&quot;) &amp; tissue %in% c(&quot;Bladder&quot;, &quot;Brain&quot;, &quot;Blood&quot;, &quot;Kidney&quot;),][
+  , .(.N), by = .(tissue, ds)
+][order(N)]</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["tissue"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ds"],"name":[2],"type":["chr"],"align":["left"]},{"label":["N"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"Bladder","2":"GTEx","3":"11"},{"1":"Kidney","2":"GTEx","3":"29"},{"1":"Blood","2":"GTEx","3":"559"},{"1":"Brain","2":"GTEx","3":"947"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div id="gtex-bladder" class="section level3">
+<h3>GTEx-Bladder</h3>
 <pre class="r"><code>bladder.pvals = fread(&quot;../code/results/leafcutterMD/GTEx/Bladder/outlier_pVals.txt&quot;)</code></pre>
 <pre><code>Warning in fread(&quot;../code/results/leafcutterMD/GTEx/Bladder/outlier_pVals.txt&quot;):
 Detected 11 column names but the data has 12 columns (i.e. invalid file). Added
 1 extra default column name for the first column which is guessed to be row
 names or an index. Use setnames() afterwards if this guess is not correct, or
 fix the file write command that created the file to create a valid file.</code></pre>
-<pre class="r"><code>head(bladder.pvals)</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["V1"],"name":[1],"type":["chr"],"align":["left"]},{"label":["50326"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["50638"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["52001"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["52351"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["53907"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["54915"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["55161"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["57180"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["57480"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["58926"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["59651"],"name":[12],"type":["dbl"],"align":["right"]}],"data":[{"1":"chr1:964009:964107:clu_305973_+","2":"0.9661804","3":"1.0000000","4":"0.9096267","5":"1","6":"1.0000000","7":"1","8":"0.5475757","9":"1","10":"1","11":"0.4761246","12":"0.4761246"},{"1":"chr1:964009:964141:clu_305973_+","2":"1.0000000","3":"1.0000000","4":"1.0000000","5":"1","6":"1.0000000","7":"1","8":"1.0000000","9":"1","10":"1","11":"1.0000000","12":"1.0000000"},{"1":"chr1:964009:964349:clu_305973_+","2":"1.0000000","3":"0.7147284","4":"1.0000000","5":"1","6":"1.0000000","7":"1","8":"1.0000000","9":"1","10":"1","11":"0.9537709","12":"0.9537709"},{"1":"chr1:964009:964963:clu_305973_+","2":"1.0000000","3":"1.0000000","4":"1.0000000","5":"1","6":"1.0000000","7":"1","8":"1.0000000","9":"1","10":"1","11":"1.0000000","12":"1.0000000"},{"1":"chr1:964531:964642:clu_305976_+","2":"1.0000000","3":"1.0000000","4":"1.0000000","5":"1","6":"0.9058875","7":"1","8":"1.0000000","9":"1","10":"1","11":"1.0000000","12":"1.0000000"},{"1":"chr1:964531:964908:clu_305976_+","2":"1.0000000","3":"1.0000000","4":"1.0000000","5":"1","6":"0.9058875","7":"1","8":"1.0000000","9":"1","10":"1","11":"1.0000000","12":"1.0000000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+<p>Keep introns with <code>pval &lt; 0.001</code>.</p>
 <pre class="r"><code>bladder.keep = select(bladder.pvals, -V1) %&gt;% 
   apply(1, min) %&gt;% `&lt;`(.001) %&gt;% which
 bladder.pvals[bladder.keep]</code></pre>
@@ -687,20 +780,22 @@ other attached packages:
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.8.3     lubridate_1.8.0  assertthat_0.2.1 rprojroot_2.0.3 
  [5] digest_0.6.29    utf8_1.2.2       R6_2.5.1         cellranger_1.1.0
- [9] backports_1.4.1  reprex_2.0.1     evaluate_0.15    httr_1.4.3      
-[13] pillar_1.7.0     rlang_1.0.2      readxl_1.4.0     rstudioapi_0.13 
-[17] whisker_0.4      jquerylib_0.1.4  rmarkdown_2.14   munsell_0.5.0   
-[21] broom_0.8.0      compiler_4.1.0   httpuv_1.6.5     modelr_0.1.8    
-[25] xfun_0.31        pkgconfig_2.0.3  htmltools_0.5.2  tidyselect_1.1.2
-[29] workflowr_1.7.0  fansi_1.0.3      crayon_1.5.1     tzdb_0.3.0      
-[33] dbplyr_2.2.0     withr_2.5.0      later_1.3.0      grid_4.1.0      
-[37] jsonlite_1.8.0   gtable_0.3.0     lifecycle_1.0.1  DBI_1.1.2       
-[41] git2r_0.30.1     magrittr_2.0.3   scales_1.2.0     cli_3.3.0       
-[45] stringi_1.7.6    fs_1.5.2         promises_1.2.0.1 xml2_1.3.3      
-[49] bslib_0.3.1      ellipsis_0.3.2   generics_0.1.2   vctrs_0.4.1     
-[53] tools_4.1.0      glue_1.6.2       hms_1.1.1        fastmap_1.1.0   
-[57] yaml_2.3.5       colorspace_2.0-3 rvest_1.0.2      knitr_1.39      
-[61] haven_2.5.0      sass_0.4.1      </code></pre>
+ [9] backports_1.4.1  reprex_2.0.1     evaluate_0.15    highr_0.9       
+[13] httr_1.4.3       pillar_1.7.0     rlang_1.0.2      readxl_1.4.0    
+[17] rstudioapi_0.13  whisker_0.4      jquerylib_0.1.4  rmarkdown_2.14  
+[21] munsell_0.5.0    broom_0.8.0      compiler_4.1.0   httpuv_1.6.5    
+[25] modelr_0.1.8     xfun_0.31        pkgconfig_2.0.3  htmltools_0.5.2 
+[29] tidyselect_1.1.2 workflowr_1.7.0  fansi_1.0.3      crayon_1.5.1    
+[33] tzdb_0.3.0       dbplyr_2.2.0     withr_2.5.0      later_1.3.0     
+[37] grid_4.1.0       jsonlite_1.8.0   gtable_0.3.0     lifecycle_1.0.1 
+[41] DBI_1.1.2        git2r_0.30.1     magrittr_2.0.3   scales_1.2.0    
+[45] cli_3.3.0        stringi_1.7.6    fs_1.5.2         promises_1.2.0.1
+[49] xml2_1.3.3       bslib_0.3.1      ellipsis_0.3.2   generics_0.1.2  
+[53] vctrs_0.4.1      tools_4.1.0      glue_1.6.2       hms_1.1.1       
+[57] fastmap_1.1.0    yaml_2.3.5       colorspace_2.0-3 rvest_1.0.2     
+[61] knitr_1.39       haven_2.5.0      sass_0.4.1      </code></pre>
+</div>
+</div>
 </div>
 
 
