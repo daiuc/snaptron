@@ -465,15 +465,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree7f75c136619a22e388814761a0ca2d38b68a9177targetblank7f75c13a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree88ab60c46f2525c17c0991d48fc97b004df56be0targetblank88ab60ca">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/daiuc/snaptron/tree/7f75c136619a22e388814761a0ca2d38b68a9177" target="_blank">7f75c13</a>
+<a href="https://github.com/daiuc/snaptron/tree/88ab60c46f2525c17c0991d48fc97b004df56be0" target="_blank">88ab60c</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree7f75c136619a22e388814761a0ca2d38b68a9177targetblank7f75c13a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree88ab60c46f2525c17c0991d48fc97b004df56be0targetblank88ab60ca"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -483,7 +483,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/daiuc/snaptron/tree/7f75c136619a22e388814761a0ca2d38b68a9177" target="_blank">7f75c13</a>.
+<a href="https://github.com/daiuc/snaptron/tree/88ab60c46f2525c17c0991d48fc97b004df56be0" target="_blank">88ab60c</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -501,7 +501,6 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    code/.snakemake/
     Ignored:    code/.test/
-    Ignored:    code/leafcutterMD.svg
     Ignored:    code/logs/
     Ignored:    code/playground.py.ipynb
     Ignored:    code/resources/
@@ -552,6 +551,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/88ab60c46f2525c17c0991d48fc97b004df56be0/analysis/leafcutterMD.Rmd" target="_blank">88ab60c</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-07-25
+</td>
+<td>
+wflow_publish("leafcutterMD.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/daiuc/snaptron/beca89f0d98cf44b6dfac043d40e95178c42a026/docs/leafcutterMD.html" target="_blank">beca89f</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-07-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -702,13 +735,9 @@ than the count table, due to insufficient tissue data available.</p>
 <li>produce lookup table (rail_id : [tissue, data source (GTEx, TCGA,
 SRAV)])</li>
 <li>subset count table by tissue and datasource</li>
-<li>prep leafcutterMD input count matrix</li>
-</ol>
-<ul>
-<li>necessary header/numerator data wrangling</li>
-<li>filter intron clusters with less than 5 total reads</li>
-</ul>
-<ol start="4" style="list-style-type: decimal">
+<li>prep leafcutterMD input count matrix - necessary header/numerator
+data wrangling - filter intron clusters with less than 5 total
+reads</li>
 <li>leafcutterMD</li>
 </ol>
 <p>Issues: 1. OOM error. Still too many rows when sample number is
@@ -717,8 +746,8 @@ reduce intron clusters by some criteria? for instance by range variance?
 or Max-Min? 3. Clean up on meta data of TCGA, and especially SRAV 4.
 Need to pool all samples of the same tissue type? TCGA are all cancer
 tissues/cells though. 5. What is SRAV dataset?</p>
-<pre class="r"><code>knitr::include_graphics(&quot;../code/leafcutterMD.svg&quot;)</code></pre>
-<p><img src="../code/leafcutterMD.svg" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>knitr::include_graphics(&quot;../docs/assets/leafcutterMD.svg&quot;)</code></pre>
+<p><img src="../docs/assets/leafcutterMD.svg" style="display: block; margin: auto;" /></p>
 <p>Selected samples to run leafcutterMD</p>
 <pre class="r"><code>all_perind_lookup[ds %in% c(&quot;GTEx&quot;) &amp; tissue %in% c(&quot;Bladder&quot;, &quot;Brain&quot;, &quot;Blood&quot;, &quot;Kidney&quot;),][
   , .(.N), by = .(tissue, ds)
