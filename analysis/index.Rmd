@@ -9,4 +9,5 @@ editor_options:
 ---
 
 # Pages:
-- [leafcutterMD Results](leafcutterMD.html)
+
+[leafcutterMD Results](leafcutterMD.html)
