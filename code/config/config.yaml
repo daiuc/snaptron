@@ -1,5 +1,4 @@
-# This file should contain everything to configure the workflow on a global scale.
-# In case of sample based data, it should be complemented by a samples.tsv file that contains
-# one row per sample. It can be parsed easily via pandas.
 
-samples: config/samples.tsv
+# samples: config/samples.tsv
+
+RailID_Tissue_Lookup: /project2/yangili1/cdai/snaptron/code/resources/All_perind_rail_id_tissue_type_lookup.tsv
