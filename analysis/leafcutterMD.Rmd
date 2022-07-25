@@ -45,7 +45,7 @@ Processing procedures:
     - filter intron clusters with less than 5 total reads
   4. leafcutterMD
 
-[dag](assets/leafcutterMD.svg)
+![dag](assets/leafcutterMD.svg)
 
 Issues:
   1. OOM error. Still too many rows when sample number is large, suggest to segment rows into segments of introns
