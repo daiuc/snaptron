@@ -1,0 +1,33 @@
+---
+title: "leafcutterMD"
+author: "daiuc"
+date: "2022-07-25"
+output: 
+  workflowr::wflow_html:
+    code_folding: "hide"
+    df_print: "paged"
+  
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(data.table)
+```
+
+
+```{r}
+bladder.pvals = fread("../code/results/leafcutterMD/GTEx/Bladder/outlier_pVals.txt")
+```
+```{r}
+head(bladder.pvals)
+```
+
+```{r}
+bladder.keep = select(bladder.pvals, -V1) %>% 
+  apply(1, min) %>% `<`(.001) %>% which
+bladder.pvals[bladder.keep]
+
+```
+
