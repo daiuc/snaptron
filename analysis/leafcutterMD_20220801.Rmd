@@ -1,0 +1,536 @@
+---
+params:
+    tissue: Muscle
+    group: 
+    - group0
+    - group1
+    - group2
+title: "LeafcutterMD Analyses - GTEx `r params$tissue`"
+author: "Chao Dai"
+date: "updated `r Sys.Date()`"
+
+output: 
+  bookdown::html_document2:
+    toc: yes
+    toc_float: yes
+    theme: readable
+    highlight: textmate
+    code_folding: hide
+    df_print: paged
+editor_options:
+  chunk_output_type: inline
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = F, message = F, echo = F)
+
+library(tidyverse)
+library(data.table)
+```
+
+
+
+# GTEx `r params$tissue` {.tabset}
+
+
+
+<!-- Tabbed section -->
+
+## `r params$group[[1]]` 
+
+```{r}
+# load Bladder intron level pvals
+tissue = params$tissue
+group = params$group[[1]]
+p_cutoff = 1e-8
+```
+
+
+```{r}
+intron = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue, "/",  group, "_pVals.txt"))
+cluster = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue , "/", group, "_clusterPvals.txt"))
+nums = fread(paste0("../code/results/SubsetCounts/GTEx/", tissue, "/nums_filtered/", group, "_perind.nums.gz"))
+
+intron = rename(intron, "chrom" = "V1")
+cluster = rename(cluster, "cluster" = "V1")
+nums = rename(nums, "chrom" = "V1")
+```
+
+```{r}
+# bonferoni correction
+N_tests = nrow(cluster)
+
+# creat intron cluster column
+intron[, cluster := str_extract(chrom, "clu_[0-9]+_[\\+\\-]")]
+
+
+```
+
+
+### Intron selection
+
+Introns must satisfy the following criteria, based on p_cutoff = `r scales::scientific(p_cutoff)`
+
+  1. cluster level p-value < `r scales::scientific(p_cutoff)`
+  2. minimum p-value of a given intron < `r scales::scientific(p_cutoff)`
+
+
+```{r}
+cluster_rowMins = cluster[, -c("cluster")] %>% apply(1, min)
+outlier_clusters = cluster[which(cluster_rowMins < p_cutoff), cluster] %>% unique
+
+intron_rowMins = select(intron, where(is_numeric)) %>% apply(1, min)
+intron$rowMins = intron_rowMins
+
+outlier_introns = intron[
+    cluster %in% outlier_clusters & rowMins < p_cutoff][
+      order(rowMins), chrom] %>% unique
+```
+
+
+Introns that have outlier splicing events:
+Based on the above criteria, `r length(outlier_clusters)` intron clusters, and `r length(outlier_introns)` outlier introns are selected. Below are the outlier introns (top 500 rows):
+
+```{r echo=TRUE}
+intron[cluster %in% outlier_clusters & 
+            rowMins < p_cutoff
+          ][order(rowMins)] %>% head(500)
+```
+
+### QQ plot
+
+Select top 4 introns and plot qq plot:
+
+```{r fig.cap="QQ plot of introns with outlier splicing", echo=TRUE}
+intron[
+  cluster %in% outlier_clusters & rowMins < p_cutoff][
+    order(rowMins)] %>% 
+  head(4) %>% 
+  .[, -c("cluster", "rowMins")] %>% 
+  column_to_rownames("chrom") %>% t %>% as.data.frame %>% as.list %>% 
+  leafcutter::multiqq(.) + theme_bw() + 
+    guides(color = guide_legend(nrow=2, title=NULL)) + 
+    theme(legend.position = "bottom")
+```
+
+
+### Box plot of selected introns
+
+```{r, fig.width=8, fig.height=6}
+chosen_introns = intron[
+  cluster %in% outlier_clusters & rowMins < p_cutoff][
+    order(rowMins)] %>% 
+  head(4) %>% 
+  .[, chrom] %>% unique
+
+rc = nums[chrom %in% chosen_introns] %>% 
+  pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "rc")
+
+pv = intron[chrom %in% chosen_introns, -c("rowMins")] %>% 
+  pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "p")
+
+inner_join(pv, rc, by = c("chrom", "samples")) %>% 
+  mutate(isOutlier = if_else(p < p_cutoff, "outlier", "non-outlier")) %>% 
+  ggplot() + geom_boxplot(aes(chrom, rc)) + 
+    geom_point(aes(chrom, rc, color = isOutlier), alpha = .3) + 
+    scale_y_log10() + 
+    labs(x = NULL, y = "reads", color = NULL, shape = NULL) + 
+    theme_bw() + 
+      theme(legend.position = "bottom", axis.text.x = element_text(angle = 10))
+#    guides(color = guide_legend(nrow = 2, title = NULL)) + 
+
+
+```
+
+```{r, fig.cap='Histgram of number of detected outlier samples per intron'}
+outlier_df = inner_join(x = nums[chrom %in% outlier_introns] %>% 
+             pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "rc"),
+           y = intron[chrom %in% outlier_introns, -c("cluster", "rowMins")] %>% 
+             pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "p"),
+           by = c("chrom", "samples")
+           ) %>% 
+  mutate(isOutlier = p < p_cutoff) %>%
+  filter(isOutlier) %>%
+  group_by(chrom) %>% mutate(n_samples = unique(samples) %>% length)
+  
+ggplot(outlier_df) + geom_histogram(aes(n_samples)) + 
+    theme_bw()
+
+```
+
+### Outlier Summary
+
+Overall in GTEX `r tissue` `r group` with pvalue cutoff at `r p_cutoff`, there are in total `r length(unique(outlier_df$chrom))` outlier introns detected, that occurred among `r outlier_df$samples %>% unique %>% length` samples
+
+```{r}
+outlier_df %>% 
+  group_by(samples) %>% 
+  summarise(n_outlier_introns = length(unique(chrom))) %>% 
+  ggplot() + geom_col(aes(samples, n_outlier_introns, fill = samples)) + 
+    labs(x = "100 samples", y = "Number of outlier introns detected") + 
+    scale_y_log10() + 
+    theme_bw() + 
+    theme(axis.text.x = element_blank(), legend.position = "None")
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+# box plot of p-values
+
+intron[cluster %in% outlier_clusters & 
+            rowMins < p_cutoff
+          ][order(rowMins)] %>% 
+  head(4) %>% 
+  select(-rowMins, -cluster) %>% 
+  pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "p") %>% 
+  ggplot() + geom_boxplot(aes(chrom, p, color = chrom)) + 
+    geom_point(aes(chrom, p), alpha = .2) +
+    labs(x = NULL, y = NULL) + 
+    theme_bw() +
+    guides(color = guide_legend(nrow = 2)) + 
+    theme(legend.position = "bottom", axis.text.x = element_blank(), axis.ticks.x = element_blank())
+```
+
+
+```{r include=FALSE}
+rm(intron, cluster)
+gc()
+```
+
+
+
+
+
+
+<!-- Tabbed section -->
+
+## `r params$group[[2]]` 
+
+```{r}
+# load Bladder intron level pvals
+tissue = params$tissue
+group = params$group[[2]]
+p_cutoff = 1e-8
+```
+
+
+```{r}
+intron = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue, "/",  group, "_pVals.txt"))
+cluster = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue , "/", group, "_clusterPvals.txt"))
+nums = fread(paste0("../code/results/SubsetCounts/GTEx/", tissue, "/nums_filtered/", group, "_perind.nums.gz"))
+
+intron = rename(intron, "chrom" = "V1")
+cluster = rename(cluster, "cluster" = "V1")
+nums = rename(nums, "chrom" = "V1")
+```
+
+```{r}
+# bonferoni correction
+N_tests = nrow(cluster)
+
+# creat intron cluster column
+intron[, cluster := str_extract(chrom, "clu_[0-9]+_[\\+\\-]")]
+
+
+```
+
+
+### Intron selection
+
+Introns must satisfy the following criteria, based on p_cutoff = `r scales::scientific(p_cutoff)`
+
+  1. cluster level p-value < `r scales::scientific(p_cutoff)`
+  2. minimum p-value of a given intron < `r scales::scientific(p_cutoff)`
+
+
+```{r}
+cluster_rowMins = cluster[, -c("cluster")] %>% apply(1, min)
+outlier_clusters = cluster[which(cluster_rowMins < p_cutoff), cluster] %>% unique
+
+intron_rowMins = select(intron, where(is_numeric)) %>% apply(1, min)
+intron$rowMins = intron_rowMins
+
+outlier_introns = intron[
+    cluster %in% outlier_clusters & rowMins < p_cutoff][
+      order(rowMins), chrom] %>% unique
+```
+
+
+Introns that have outlier splicing events:
+Based on the above criteria, `r length(outlier_clusters)` intron clusters, and `r length(outlier_introns)` outlier introns are selected. Below are the outlier introns (top 500 rows):
+
+```{r echo=TRUE}
+intron[cluster %in% outlier_clusters & 
+            rowMins < p_cutoff
+          ][order(rowMins)] %>% head(500)
+```
+
+### QQ plot
+
+Select top 4 introns and plot qq plot:
+
+```{r fig.cap="QQ plot of introns with outlier splicing", echo=TRUE}
+intron[
+  cluster %in% outlier_clusters & rowMins < p_cutoff][
+    order(rowMins)] %>% 
+  head(4) %>% 
+  .[, -c("cluster", "rowMins")] %>% 
+  column_to_rownames("chrom") %>% t %>% as.data.frame %>% as.list %>% 
+  leafcutter::multiqq(.) + theme_bw() + 
+    guides(color = guide_legend(nrow=2, title=NULL)) + 
+    theme(legend.position = "bottom")
+```
+
+
+### Box plot of selected introns
+
+```{r, fig.width=8, fig.height=6}
+chosen_introns = intron[
+  cluster %in% outlier_clusters & rowMins < p_cutoff][
+    order(rowMins)] %>% 
+  head(4) %>% 
+  .[, chrom] %>% unique
+
+rc = nums[chrom %in% chosen_introns] %>% 
+  pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "rc")
+
+pv = intron[chrom %in% chosen_introns, -c("rowMins")] %>% 
+  pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "p")
+
+inner_join(pv, rc, by = c("chrom", "samples")) %>% 
+  mutate(isOutlier = if_else(p < p_cutoff, "outlier", "non-outlier")) %>% 
+  ggplot() + geom_boxplot(aes(chrom, rc)) + 
+    geom_point(aes(chrom, rc, color = isOutlier), alpha = .3) + 
+    scale_y_log10() + 
+    labs(x = NULL, y = "reads", color = NULL, shape = NULL) + 
+    theme_bw() + 
+      theme(legend.position = "bottom", axis.text.x = element_text(angle = 10))
+#    guides(color = guide_legend(nrow = 2, title = NULL)) + 
+
+
+```
+
+```{r, fig.cap='Histgram of number of detected outlier samples per intron'}
+outlier_df = inner_join(x = nums[chrom %in% outlier_introns] %>% 
+             pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "rc"),
+           y = intron[chrom %in% outlier_introns, -c("cluster", "rowMins")] %>% 
+             pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "p"),
+           by = c("chrom", "samples")
+           ) %>% 
+  mutate(isOutlier = p < p_cutoff) %>%
+  filter(isOutlier) %>%
+  group_by(chrom) %>% mutate(n_samples = unique(samples) %>% length)
+  
+ggplot(outlier_df) + geom_histogram(aes(n_samples)) + 
+    theme_bw()
+
+```
+
+### Outlier Summary
+
+Overall in GTEX `r tissue` `r group` with pvalue cutoff at `r p_cutoff`, there are in total `r length(unique(outlier_df$chrom))` outlier introns detected, that occurred among `r outlier_df$samples %>% unique %>% length` samples
+
+```{r}
+outlier_df %>% 
+  group_by(samples) %>% 
+  summarise(n_outlier_introns = length(unique(chrom))) %>% 
+  ggplot() + geom_col(aes(samples, n_outlier_introns, fill = samples)) + 
+    labs(x = "100 samples", y = "Number of outlier introns detected") + 
+    scale_y_log10() + 
+    theme_bw() + 
+    theme(axis.text.x = element_blank(), legend.position = "None")
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+# box plot of p-values
+
+intron[cluster %in% outlier_clusters & 
+            rowMins < p_cutoff
+          ][order(rowMins)] %>% 
+  head(4) %>% 
+  select(-rowMins, -cluster) %>% 
+  pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "p") %>% 
+  ggplot() + geom_boxplot(aes(chrom, p, color = chrom)) + 
+    geom_point(aes(chrom, p), alpha = .2) +
+    labs(x = NULL, y = NULL) + 
+    theme_bw() +
+    guides(color = guide_legend(nrow = 2)) + 
+    theme(legend.position = "bottom", axis.text.x = element_blank(), axis.ticks.x = element_blank())
+```
+
+
+```{r include=FALSE}
+rm(intron, cluster)
+gc()
+```
+
+
+
+
+<!-- Tabbed section -->
+
+## `r params$group[[3]]` 
+
+```{r}
+# load Bladder intron level pvals
+tissue = params$tissue
+group = params$group[[3]]
+p_cutoff = 1e-8
+```
+
+
+```{r}
+intron = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue, "/",  group, "_pVals.txt"))
+cluster = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue , "/", group, "_clusterPvals.txt"))
+nums = fread(paste0("../code/results/SubsetCounts/GTEx/", tissue, "/nums_filtered/", group, "_perind.nums.gz"))
+
+intron = rename(intron, "chrom" = "V1")
+cluster = rename(cluster, "cluster" = "V1")
+nums = rename(nums, "chrom" = "V1")
+```
+
+```{r}
+# bonferoni correction
+N_tests = nrow(cluster)
+
+# creat intron cluster column
+intron[, cluster := str_extract(chrom, "clu_[0-9]+_[\\+\\-]")]
+
+
+```
+
+
+### Intron selection
+
+Introns must satisfy the following criteria, based on p_cutoff = `r scales::scientific(p_cutoff)`
+
+  1. cluster level p-value < `r scales::scientific(p_cutoff)`
+  2. minimum p-value of a given intron < `r scales::scientific(p_cutoff)`
+
+
+```{r}
+cluster_rowMins = cluster[, -c("cluster")] %>% apply(1, min)
+outlier_clusters = cluster[which(cluster_rowMins < p_cutoff), cluster] %>% unique
+
+intron_rowMins = select(intron, where(is_numeric)) %>% apply(1, min)
+intron$rowMins = intron_rowMins
+
+outlier_introns = intron[
+    cluster %in% outlier_clusters & rowMins < p_cutoff][
+      order(rowMins), chrom] %>% unique
+```
+
+
+Introns that have outlier splicing events:
+Based on the above criteria, `r length(outlier_clusters)` intron clusters, and `r length(outlier_introns)` outlier introns are selected. Below are the outlier introns (top 500 rows):
+
+```{r echo=TRUE}
+intron[cluster %in% outlier_clusters & 
+            rowMins < p_cutoff
+          ][order(rowMins)] %>% head(500)
+```
+
+### QQ plot
+
+Select top 4 introns and plot qq plot:
+
+```{r fig.cap="QQ plot of introns with outlier splicing", echo=TRUE}
+intron[
+  cluster %in% outlier_clusters & rowMins < p_cutoff][
+    order(rowMins)] %>% 
+  head(4) %>% 
+  .[, -c("cluster", "rowMins")] %>% 
+  column_to_rownames("chrom") %>% t %>% as.data.frame %>% as.list %>% 
+  leafcutter::multiqq(.) + theme_bw() + 
+    guides(color = guide_legend(nrow=2, title=NULL)) + 
+    theme(legend.position = "bottom")
+```
+
+
+### Box plot of selected introns
+
+```{r, fig.width=8, fig.height=6}
+chosen_introns = intron[
+  cluster %in% outlier_clusters & rowMins < p_cutoff][
+    order(rowMins)] %>% 
+  head(4) %>% 
+  .[, chrom] %>% unique
+
+rc = nums[chrom %in% chosen_introns] %>% 
+  pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "rc")
+
+pv = intron[chrom %in% chosen_introns, -c("rowMins")] %>% 
+  pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "p")
+
+inner_join(pv, rc, by = c("chrom", "samples")) %>% 
+  mutate(isOutlier = if_else(p < p_cutoff, "outlier", "non-outlier")) %>% 
+  ggplot() + geom_boxplot(aes(chrom, rc)) + 
+    geom_point(aes(chrom, rc, color = isOutlier), alpha = .3) + 
+    scale_y_log10() + 
+    labs(x = NULL, y = "reads", color = NULL, shape = NULL) + 
+    theme_bw() + 
+      theme(legend.position = "bottom", axis.text.x = element_text(angle = 10))
+#    guides(color = guide_legend(nrow = 2, title = NULL)) + 
+
+
+```
+
+```{r, fig.cap='Histgram of number of detected outlier samples per intron'}
+outlier_df = inner_join(x = nums[chrom %in% outlier_introns] %>% 
+             pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "rc"),
+           y = intron[chrom %in% outlier_introns, -c("cluster", "rowMins")] %>% 
+             pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "p"),
+           by = c("chrom", "samples")
+           ) %>% 
+  mutate(isOutlier = p < p_cutoff) %>%
+  filter(isOutlier) %>%
+  group_by(chrom) %>% mutate(n_samples = unique(samples) %>% length)
+  
+ggplot(outlier_df) + geom_histogram(aes(n_samples)) + 
+    theme_bw()
+
+```
+
+### Outlier Summary
+
+Overall in GTEX `r tissue` `r group` with pvalue cutoff at `r p_cutoff`, there are in total `r length(unique(outlier_df$chrom))` outlier introns detected, that occurred among `r outlier_df$samples %>% unique %>% length` samples
+
+```{r}
+outlier_df %>% 
+  group_by(samples) %>% 
+  summarise(n_outlier_introns = length(unique(chrom))) %>% 
+  ggplot() + geom_col(aes(samples, n_outlier_introns, fill = samples)) + 
+    labs(x = "100 samples", y = "Number of outlier introns detected") + 
+    scale_y_log10() + 
+    theme_bw() + 
+    theme(axis.text.x = element_blank(), legend.position = "None")
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+# box plot of p-values
+
+intron[cluster %in% outlier_clusters & 
+            rowMins < p_cutoff
+          ][order(rowMins)] %>% 
+  head(4) %>% 
+  select(-rowMins, -cluster) %>% 
+  pivot_longer(cols = where(is.numeric), names_to = "samples", values_to = "p") %>% 
+  ggplot() + geom_boxplot(aes(chrom, p, color = chrom)) + 
+    geom_point(aes(chrom, p), alpha = .2) +
+    labs(x = NULL, y = NULL) + 
+    theme_bw() +
+    guides(color = guide_legend(nrow = 2)) + 
+    theme(legend.position = "bottom", axis.text.x = element_blank(), axis.ticks.x = element_blank())
+```
+
+
+```{r include=FALSE}
+rm(intron, cluster)
+gc()
+```
