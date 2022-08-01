@@ -12,6 +12,8 @@ navbar:
 output:
   workflowr::wflow_html:
     toc: yes
-    toc_float: no
-    theme: cosmo
+    toc_float: yes
+    theme: readable
     highlight: textmate
+    code_folding: hide
+    df_print: paged

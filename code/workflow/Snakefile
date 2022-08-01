@@ -1,11 +1,26 @@
+import pandas as pd
+import os
+import glob
+
 configfile: "config/config.yaml"
 include: "rules/common.smk"
 include: "rules/other.smk"
-include: "rules/leafcutter.smk"
+include: "rules/leafcutterMD_v2.smk"
 
 
-# localrules: all
 
-# rule all:
-    # input:
-        # expand('results/ComputeMatrix/{FeatureType}/heatmap.pdf', FeatureType=FEATURE_TYPES2)
+localrules: all
+
+rule all:
+    input:
+        'resources/All_perind_rail_id_tissue_type_lookup.tsv',
+        expand('results/leafcutterMD/{data_source}/{tissue}/LeafcutterMD.done', 
+                data_source = ['GTEx'], tissue = ['Bladder', 'Kidney'])
+
+
+
+
+        
+        # expand('results/leafcutterMD/{data_source}/{tissue}/outlier_pVals.txt', 
+        #         data_source = ['GTEx'], tissue = ['Bladder', 'Muscle', 'Kidney']) # use GTExTissues, TcgaTissues in production
+

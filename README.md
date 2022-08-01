@@ -1,6 +1,9 @@
-# snaptron analyses
+# Snaptron analyses
 
-## Authors: 
-- Chao Dai
+## Authors:
 
+-   Chao Dai
 
+## Snakemake Analyses workflow
+
+![](code/leafcutterMD-dag.svg)

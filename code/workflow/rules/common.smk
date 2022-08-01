@@ -1,15 +1,12 @@
-import pandas as pd
+import pandas as pa 
 import os
 
-###### Config file and sample sheets #####
-# samples = pd.read_csv(config["samples"],sep='\t')
-# samples.set_index(keys = ['SampleID', 'CellLine', 'CoreID', 
-#                           'Treatment', 'Experiment'], 
-#                   drop = False, 
-#                   inplace = True)
+# common variables - potentially move 
+SampleLookupTable = pd.read_csv(config['RailID_Tissue_Lookup'], 
+    sep='\t').set_index(keys=['rail_id', 'tissue', 'ds'], drop=False)
 
-# SAMPLEIDS = samples.SampleID.unique()
-# TREATMENT_SAMPLEIDS = samples.query('Treatment != "input"').SampleID.unique()
+GTExTissues = SampleLookupTable.query('ds == "GTEx"').tissue.unique()
+TcgaTissues = SampleLookupTable.query('ds == "TCGA"').tissue.unique()
 
 
 

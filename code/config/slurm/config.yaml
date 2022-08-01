@@ -8,8 +8,8 @@ cluster: "mkdir -p slurm_logs &&
         -e slurm_logs/{rule}%j.e -o slurm_logs/{rule}%j.o 
         --job-name {rule}  "
 default-resources: 
-    - time=500
-    - mem_mb=15000
+    - time=2000
+    - mem_mb=25000
     - cpu=1
     - partition=broadwl
     - account='pi-jstaley'
