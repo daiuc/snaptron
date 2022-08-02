@@ -4,12 +4,16 @@ site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
     toc: false
+    cold_folding: none
 editor_options:
   chunk_output_type: console
 ---
 
-# Pages:
 
-[leafcutterMD Results](leafcutterMD.html)
 
-[leafcutterMD analysis 22/08/01](leafcutterMD_20220801.html)
+
+## Analyses
+
+- [Samples](sample_analysis.html)
+
+- [leafcutterMD analysis 22/08/01](leafcutterMD_20220801.html)
