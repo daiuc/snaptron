@@ -15,12 +15,6 @@ rule all:
     input:
         'resources/All_perind_rail_id_tissue_type_lookup.tsv',
         expand('results/leafcutterMD/{data_source}/{tissue}/LeafcutterMD.done', 
-                data_source = ['GTEx'], tissue = ['Bladder', 'Kidney'])
+                data_source = ['GTEx'], tissue = ['Bladder', 'Kidney', 'Muscle'])
 
-
-
-
-        
-        # expand('results/leafcutterMD/{data_source}/{tissue}/outlier_pVals.txt', 
-        #         data_source = ['GTEx'], tissue = ['Bladder', 'Muscle', 'Kidney']) # use GTExTissues, TcgaTissues in production
 

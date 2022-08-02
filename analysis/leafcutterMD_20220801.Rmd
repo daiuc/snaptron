@@ -5,14 +5,15 @@ params:
     - group0
     - group1
     - group2
+    p_cutoff: 1e-10
 title: "LeafcutterMD Analyses - GTEx `r params$tissue`"
 author: "Chao Dai"
 date: "updated `r Sys.Date()`"
 
 output: 
   bookdown::html_document2:
-    toc: yes
-    toc_float: yes
+    toc: no
+    toc_float: no
     theme: readable
     highlight: textmate
     code_folding: hide
@@ -27,6 +28,7 @@ knitr::opts_chunk$set(warning = F, message = F, echo = F)
 
 library(tidyverse)
 library(data.table)
+library(ggrastr)
 ```
 
 
@@ -43,7 +45,7 @@ library(data.table)
 # load Bladder intron level pvals
 tissue = params$tissue
 group = params$group[[1]]
-p_cutoff = 1e-8
+p_cutoff = as.numeric(params$p_cutoff)
 ```
 
 
@@ -112,6 +114,14 @@ intron[
   leafcutter::multiqq(.) + theme_bw() + 
     guides(color = guide_legend(nrow=2, title=NULL)) + 
     theme(legend.position = "bottom")
+```
+
+```{r eval=F, include=F}
+# QQ plot of min cluster p-values
+rasterize(leafcutter::multiqq(list(sample1 = intron$`50108`,
+                                   sample2 = intron$`50123`,
+                                   sample3 = intron$`50270`
+                                   )), layers = 'point', dpi = 100)
 ```
 
 
@@ -212,7 +222,7 @@ gc()
 # load Bladder intron level pvals
 tissue = params$tissue
 group = params$group[[2]]
-p_cutoff = 1e-8
+p_cutoff = as.numeric(params$p_cutoff)
 ```
 
 
@@ -379,7 +389,7 @@ gc()
 # load Bladder intron level pvals
 tissue = params$tissue
 group = params$group[[3]]
-p_cutoff = 1e-8
+p_cutoff = as.numeric(params$p_cutoff)
 ```
 
 
