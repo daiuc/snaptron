@@ -9,9 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="daiuc" />
 
+<meta name="date" content="2022-07-25" />
 
-<title>Home</title>
+<title>leafcutterMD</title>
 
 <script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -29,6 +31,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
@@ -238,6 +243,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -245,6 +313,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -287,7 +365,9 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Home</h1>
+<h1 class="title toc-ignore">leafcutterMD</h1>
+<h4 class="author">daiuc</h4>
+<h4 class="date">2022-07-25</h4>
 
 </div>
 
@@ -320,7 +400,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span> 0
 </p>
@@ -357,6 +437,90 @@ class="panel-collapse collapse">
 <p>Great! Since the R Markdown file has been committed to the Git
 repository, you know the exact version of the code that produced these
 results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed19900924code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(19900924)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed19900924code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(19900924)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
 </div>
 </div>
 </div>
@@ -436,10 +600,11 @@ have uncommitted changes.
 
 <p>
 These are the previous versions of the repository in which changes were
-made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
-(<code>docs/index.html</code>) files. If you’ve configured a remote Git
-repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
-in the table below to view the files as they were in that past version.
+made to the R Markdown (<code>analysis/sample_analysis.Rmd</code>) and
+HTML (<code>docs/sample_analysis.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -468,7 +633,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/daiuc/snaptron/blob/b781bd211124e29508bf05332bd8b7cfbe1df93c/analysis/index.Rmd" target="_blank">b781bd2</a>
+<a href="https://github.com/daiuc/snaptron/blob/b781bd211124e29508bf05332bd8b7cfbe1df93c/analysis/sample_analysis.Rmd" target="_blank">b781bd2</a>
 </td>
 <td>
 daiuc
@@ -480,176 +645,6 @@ daiuc
 wflow_publish(c("index.Rmd", "sample_analysis.Rmd"))
 </td>
 </tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/daiuc/snaptron/7931e35aa67c452ed171788e1ae8ae664a4d2c15/docs/index.html" target="_blank">7931e35</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-08-01
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/daiuc/snaptron/blob/24c45a8fc138ba894e82e5becb8d5c5b92ee9888/analysis/index.Rmd" target="_blank">24c45a8</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-08-01
-</td>
-<td>
-wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/daiuc/snaptron/b6537f82498b995f872f8b7e1b45a4da674b757d/docs/index.html" target="_blank">b6537f8</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-08-01
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/daiuc/snaptron/blob/f628ec2e56dc8c7a591edb351c3ab9bd1c23ddd7/analysis/index.Rmd" target="_blank">f628ec2</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-08-01
-</td>
-<td>
-wflow_publish("index.Rmd")
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/daiuc/snaptron/2ecbee7f0a30e07ae62065feae0e01762ed50118/docs/index.html" target="_blank">2ecbee7</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-07-25
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/daiuc/snaptron/blob/c2595c736dbd8e11ce31197ed20f2393ea72b842/analysis/index.Rmd" target="_blank">c2595c7</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-07-25
-</td>
-<td>
-wflow_publish(c("index.Rmd", "leafcutterMD.Rmd"))
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/daiuc/snaptron/6ec73b231744d064eb19484e2908bfc49246c3dd/docs/index.html" target="_blank">6ec73b2</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-07-25
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/daiuc/snaptron/4d299c6a2fbae55594e40bff2f3976bb9dd7fa67/docs/index.html" target="_blank">4d299c6</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-07-25
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/daiuc/snaptron/blob/e81d4ff3dd76320b6b7ea3aeec89a2e4d96ef658/analysis/index.Rmd" target="_blank">e81d4ff</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-07-25
-</td>
-<td>
-wflow_publish(c("index.Rmd", "leafcutterMD.Rmd"))
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/daiuc/snaptron/blob/2a2d896f3dac59b01a4123a0f5af70e9a9f72ce9/analysis/index.Rmd" target="_blank">2a2d896</a>
-</td>
-<td>
-daiuc
-</td>
-<td>
-2022-07-20
-</td>
-<td>
-first commit
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -657,13 +652,87 @@ first commit
 </div>
 </div>
 </div>
-<div id="analyses" class="section level2">
-<h2>Analyses</h2>
-<ul>
-<li><p><a href="sample_analysis.html">Samples</a></p></li>
-<li><p><a href="leafcutterMD_20220801.html">leafcutterMD analysis
-22/08/01</a></p></li>
-</ul>
+<div id="gathered-samples" class="section level1">
+<h1>Gathered Samples</h1>
+<pre class="r"><code>all_perind_lookup = fread(&quot;../code/resources/All_perind_rail_id_tissue_type_lookup.tsv&quot;)
+
+all_perind_lookup[ds %in% c(&quot;GTEx&quot;, &quot;TCGA&quot;),][
+  , .(.N), by = .(tissue, ds)
+][order(N)]</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["tissue"],"name":[1],"type":["chr"],"align":["left"]},{"label":["ds"],"name":[2],"type":["chr"],"align":["left"]},{"label":["N"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"Fallopian Tube","2":"GTEx","3":"7"},{"1":"Cervix Uteri","2":"GTEx","3":"11"},{"1":"Bladder","2":"GTEx","3":"11"},{"1":"Bone Marrow","2":"TCGA","3":"21"},{"1":"Kidney","2":"GTEx","3":"29"},{"1":"Lymph Nodes","2":"TCGA","3":"35"},{"1":"Bile Duct","2":"TCGA","3":"40"},{"1":"Eye","2":"TCGA","3":"64"},{"1":"Salivary Gland","2":"GTEx","3":"69"},{"1":"Pleura","2":"TCGA","3":"80"},{"1":"Uterus","2":"GTEx","3":"90"},{"1":"Thymus","2":"TCGA","3":"94"},{"1":"Bone Marrow","2":"GTEx","3":"95"},{"1":"Vagina","2":"GTEx","3":"97"},{"1":"Small Intestine","2":"GTEx","3":"104"},{"1":"Ovary","2":"GTEx","3":"106"},{"1":"Prostate","2":"GTEx","3":"108"},{"1":"Spleen","2":"GTEx","3":"116"},{"1":"Pituitary","2":"GTEx","3":"122"},{"1":"Testis","2":"TCGA","3":"122"},{"1":"Liver","2":"GTEx","3":"123"},{"1":"Adrenal Gland","2":"GTEx","3":"152"},{"1":"Pancreas","2":"TCGA","3":"158"},{"1":"Adrenal Gland","2":"TCGA","3":"180"},{"1":"Stomach","2":"GTEx","3":"195"},{"1":"Pancreas","2":"GTEx","3":"197"},{"1":"Esophagus","2":"TCGA","3":"198"},{"1":"Testis","2":"GTEx","3":"203"},{"1":"Uterus","2":"TCGA","3":"204"},{"1":"Breast","2":"GTEx","3":"217"},{"1":"Soft Tissue","2":"TCGA","3":"236"},{"1":"Cervix","2":"TCGA","3":"269"},{"1":"Nerve","2":"GTEx","3":"311"},{"1":"Bladder","2":"TCGA","3":"323"},{"1":"Thyroid","2":"GTEx","3":"341"},{"1":"Lung","2":"GTEx","3":"349"},{"1":"Colon","2":"GTEx","3":"369"},{"1":"Liver","2":"TCGA","3":"372"},{"1":"Colorectal","2":"TCGA","3":"401"},{"1":"Heart","2":"GTEx","3":"413"},{"1":"Ovary","2":"TCGA","3":"428"},{"1":"Stomach","2":"TCGA","3":"445"},{"1":"Skin","2":"TCGA","3":"445"},{"1":"Muscle","2":"GTEx","3":"460"},{"1":"Prostate","2":"TCGA","3":"465"},{"1":"Head and Neck","2":"TCGA","3":"521"},{"1":"Thyroid","2":"TCGA","3":"535"},{"1":"Blood","2":"GTEx","3":"559"},{"1":"Adipose Tissue","2":"GTEx","3":"589"},{"1":"Brain","2":"TCGA","3":"648"},{"1":"Blood Vessel","2":"GTEx","3":"731"},{"1":"Esophagus","2":"GTEx","3":"774"},{"1":"Kidney","2":"TCGA","3":"885"},{"1":"Lung","2":"TCGA","3":"933"},{"1":"Skin","2":"GTEx","3":"945"},{"1":"Brain","2":"GTEx","3":"947"},{"1":"Breast","2":"TCGA","3":"1174"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Total number of samples to be analyzed: 28881, a few hundred less
+than the count table, due to insufficient tissue data available.</p>
+<pre class="r"><code>length(all_perind_lookup$rail_id)</code></pre>
+<pre><code>[1] 28881</code></pre>
+</div>
+<div id="leafcuttermd-output-examples" class="section level1">
+<h1>LeafcutterMD output examples</h1>
+<p>Processing procedures:</p>
+<ol style="list-style-type: decimal">
+<li>produce lookup table (rail_id : [tissue, data source (GTEx, TCGA,
+SRAV)])</li>
+<li>subset count table by tissue and datasource</li>
+<li>prep leafcutterMD input count matrix - necessary header/numerator
+data wrangling - filter intron clusters with less than 5 total
+reads</li>
+<li>leafcutterMD</li>
+</ol>
+<pre class="r"><code>knitr::include_graphics(&quot;assets/leafcutterMD-dag.svg&quot;, error = F)</code></pre>
+<p><img src="assets/leafcutterMD-dag.svg" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.0 (2021-05-18)
+Platform: x86_64-conda-linux-gnu (64-bit)
+Running under: Ubuntu 20.04.2 LTS
+
+Matrix products: default
+BLAS/LAPACK: /scratch/midway2/chaodai/miniconda3/envs/smk/lib/libopenblasp-r0.3.18.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] data.table_1.14.2 forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9      
+ [5] purrr_0.3.4       readr_2.1.2       tidyr_1.2.0       tibble_3.1.7     
+ [9] ggplot2_3.3.6     tidyverse_1.3.1  
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.8.3     lubridate_1.8.0  assertthat_0.2.1 rprojroot_2.0.3 
+ [5] digest_0.6.29    utf8_1.2.2       R6_2.5.1         cellranger_1.1.0
+ [9] backports_1.4.1  reprex_2.0.1     evaluate_0.15    highr_0.9       
+[13] httr_1.4.3       pillar_1.7.0     rlang_1.0.2      readxl_1.4.0    
+[17] rstudioapi_0.13  whisker_0.4      jquerylib_0.1.4  rmarkdown_2.14  
+[21] munsell_0.5.0    broom_0.8.0      compiler_4.1.0   httpuv_1.6.5    
+[25] modelr_0.1.8     xfun_0.31        pkgconfig_2.0.3  htmltools_0.5.2 
+[29] tidyselect_1.1.2 workflowr_1.7.0  fansi_1.0.3      crayon_1.5.1    
+[33] tzdb_0.3.0       dbplyr_2.2.0     withr_2.5.0      later_1.3.0     
+[37] grid_4.1.0       jsonlite_1.8.0   gtable_0.3.0     lifecycle_1.0.1 
+[41] DBI_1.1.2        git2r_0.30.1     magrittr_2.0.3   scales_1.2.0    
+[45] cli_3.3.0        stringi_1.7.6    fs_1.5.2         promises_1.2.0.1
+[49] xml2_1.3.3       bslib_0.3.1      ellipsis_0.3.2   generics_0.1.2  
+[53] vctrs_0.4.1      tools_4.1.0      glue_1.6.2       hms_1.1.1       
+[57] fastmap_1.1.0    yaml_2.3.5       colorspace_2.0-3 rvest_1.0.2     
+[61] knitr_1.39       haven_2.5.0      sass_0.4.1      </code></pre>
+</div>
 </div>
 
 
@@ -682,6 +751,8 @@ footer is added to webpages before the MathJax javascript. -->
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -719,6 +790,35 @@ $(document).ready(function () {
 });
 </script>
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
