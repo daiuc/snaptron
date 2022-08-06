@@ -386,7 +386,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+workflowr <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -397,8 +397,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> </a>
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -411,9 +411,9 @@ aria-hidden="true"></span> </a>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 5
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 2
+aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>snaptron/analysis/</code> <span
@@ -436,76 +436,35 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
-changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges"
+<div id="strongRMarkdownfilestronguptodate"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of
-the R Markdown file created these results, you’ll want to first commit
-it to the Git repo. If you’re still working on the analysis, you can
-ignore this warning. When you’re finished, you can run
-<code>wflow_publish</code> to commit the R Markdown file and build the
-HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongobjectspresent">
-<span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> <strong>Environment:</strong> objects present
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
 </p>
 </div>
-<div id="strongEnvironmentstrongobjectspresent"
-class="panel-collapse collapse">
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
 <div class="panel-body">
-<p>
-The global environment had objects present when the code in the R
-Markdown file was run. These objects can affect the analysis in your R
-Markdown file in unknown ways. For reproduciblity it’s best to always
-run the code in an empty environment. Use <code>wflow_publish</code> or
-<code>wflow_build</code> to ensure that the code is always run in an
-empty environment.
-</p>
-<p>
-The following objects were defined in the global environment when these
-results were created:
-</p>
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th style="text-align:left;">
-Name
-</th>
-<th style="text-align:left;">
-Class
-</th>
-<th style="text-align:left;">
-Size
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-r.ver
-</td>
-<td style="text-align:left;">
-character
-</td>
-<td style="text-align:left;">
-112 bytes
-</td>
-</tr>
-</tbody>
-</table>
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
 </div>
 </div>
 </div>
@@ -579,15 +538,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontreed0f4813803cfb66320039b0884b305fa327e6006targetblankd0f4813a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree43600c476f64bd14a4dea631798f2384f0a1cb94targetblank43600c4a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/daiuc/snaptron/tree/d0f4813803cfb66320039b0884b305fa327e6006" target="_blank">d0f4813</a>
+<a href="https://github.com/daiuc/snaptron/tree/43600c476f64bd14a4dea631798f2384f0a1cb94" target="_blank">43600c4</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontreed0f4813803cfb66320039b0884b305fa327e6006targetblankd0f4813a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree43600c476f64bd14a4dea631798f2384f0a1cb94targetblank43600c4a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -597,7 +556,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/daiuc/snaptron/tree/d0f4813803cfb66320039b0884b305fa327e6006" target="_blank">d0f4813</a>.
+<a href="https://github.com/daiuc/snaptron/tree/43600c476f64bd14a4dea631798f2384f0a1cb94" target="_blank">43600c4</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -633,13 +592,6 @@ Ignored files:
 
 Untracked files:
     Untracked:  notebooks/
-
-Unstaged changes:
-    Modified:   analysis/_site.yml
-    Deleted:    analysis/leafcutterMD.Rmd
-    Modified:   analysis/leafcutterMD_20220801.Rmd
-    Modified:   code/workflow/rules/leafcutterMD_v2.smk
-    Modified:   code/workflow/scripts/FilterLeafCutterCountsByCluster.R
 
 </code></pre>
 <p>
@@ -685,6 +637,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/43600c476f64bd14a4dea631798f2384f0a1cb94/analysis/leafcutterMD_20220801.Rmd" target="_blank">43600c4</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-06
+</td>
+<td>
+updated analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/daiuc/snaptron/43600c476f64bd14a4dea631798f2384f0a1cb94/docs/leafcutterMD_20220801.html" target="_blank">43600c4</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-06
+</td>
+<td>
+updated analysis
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -807,6 +793,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/daiuc/snaptron/blob/43600c476f64bd14a4dea631798f2384f0a1cb94/docs/figure/leafcutterMD_20220801.Rmd/unnamed-chunk-6-1.png" target="_blank">43600c4</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-06
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/daiuc/snaptron/blob/64454f62546e2991165c7e3cca76f04846429e41/docs/figure/leafcutterMD_20220801.Rmd/unnamed-chunk-6-1.png" target="_blank">64454f6</a>
 </td>
 <td>
@@ -848,6 +845,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/43600c476f64bd14a4dea631798f2384f0a1cb94/docs/figure/leafcutterMD_20220801.Rmd/unnamed-chunk-10-1.png" target="_blank">43600c4</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-06
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/daiuc/snaptron/blob/c41cddc6180fe20ff37ad53bedc540e79fa5c9ea/docs/figure/leafcutterMD_20220801.Rmd/unnamed-chunk-10-1.png" target="_blank">c41cddc</a>
@@ -922,6 +930,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/43600c476f64bd14a4dea631798f2384f0a1cb94/docs/figure/leafcutterMD_20220801.Rmd/unnamed-chunk-20-1.png" target="_blank">43600c4</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-06
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/daiuc/snaptron/blob/c41cddc6180fe20ff37ad53bedc540e79fa5c9ea/docs/figure/leafcutterMD_20220801.Rmd/unnamed-chunk-20-1.png" target="_blank">c41cddc</a>
@@ -1070,31 +1089,61 @@ Matrix products: default
 BLAS/LAPACK: /scratch/midway2/chaodai/miniconda3/envs/smk/lib/libopenblasp-r0.3.18.so
 
 locale:
- [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C               LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8     LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8    LC_PAPER=en_US.UTF-8      
- [8] LC_NAME=C                  LC_ADDRESS=C               LC_TELEPHONE=C             LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] DT_0.23           ggrepel_0.9.1     ggrastr_1.0.1     data.table_1.14.2 forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4       readr_2.1.2       tidyr_1.2.0      
-[11] tibble_3.1.7      ggplot2_3.3.6     tidyverse_1.3.1  
+ [1] DT_0.23           ggrepel_0.9.1     ggrastr_1.0.1     data.table_1.14.2
+ [5] forcats_0.5.1     stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4      
+ [9] readr_2.1.2       tidyr_1.2.0       tibble_3.1.7      ggplot2_3.3.6    
+[13] tidyverse_1.3.1  
 
 loaded via a namespace (and not attached):
-  [1] ggbeeswarm_0.6.0      colorspace_2.0-3      ellipsis_0.3.2        rprojroot_2.0.3       htmlTable_2.4.0       base64enc_0.1-3       fs_1.5.2              rstudioapi_0.13      
-  [9] farver_2.1.0          rstan_2.21.5          fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3            codetools_0.2-18      splines_4.1.0         R.methodsS3_1.8.1    
- [17] knitr_1.39            Formula_1.2-4         jsonlite_1.8.0        workflowr_1.7.0       broom_0.8.0           cluster_2.1.3         dbplyr_2.2.0          png_0.1-7            
- [25] R.oo_1.24.0           compiler_4.1.0        httr_1.4.3            backports_1.4.1       assertthat_0.2.1      Matrix_1.4-1          fastmap_1.1.0         cli_3.3.0            
- [33] later_1.3.0           prettyunits_1.1.1     htmltools_0.5.2       tools_4.1.0           gtable_0.3.0          glue_1.6.2            reshape2_1.4.4        Rcpp_1.0.8.3         
- [41] cellranger_1.1.0      jquerylib_0.1.4       vctrs_0.4.1           crosstalk_1.2.0       iterators_1.0.14      xfun_0.31             ps_1.7.0              rvest_1.0.2          
- [49] lifecycle_1.0.1       scales_1.2.0          hms_1.1.1             promises_1.2.0.1      parallel_4.1.0        inline_0.3.19         RColorBrewer_1.1-3    yaml_2.3.5           
- [57] gridExtra_2.3         loo_2.5.1             StanHeaders_2.21.0-7  sass_0.4.1            rpart_4.1.16          latticeExtra_0.6-29   stringi_1.7.6         highr_0.9            
- [65] foreach_1.5.2         checkmate_2.1.0       pkgbuild_1.3.1        leafcutter_0.2.9      matrixStats_0.62.0    intervals_0.15.2      rlang_1.0.2           pkgconfig_2.0.3      
- [73] evaluate_0.15         lattice_0.20-45       labeling_0.4.2        rstantools_2.2.0.9000 htmlwidgets_1.5.4     tidyselect_1.1.2      processx_3.6.0        plyr_1.8.7           
- [81] magrittr_2.0.3        R6_2.5.1              generics_0.1.2        Hmisc_4.7-0           DBI_1.1.2             pillar_1.7.0          haven_2.5.0           whisker_0.4          
- [89] foreign_0.8-82        withr_2.5.0           survival_3.3-1        nnet_7.3-17           modelr_0.1.8          crayon_1.5.1          utf8_1.2.2            tzdb_0.3.0           
- [97] rmarkdown_2.14        jpeg_0.1-9            grid_4.1.0            readxl_1.4.0          callr_3.7.0           git2r_0.30.1          reprex_2.0.1          digest_0.6.29        
-[105] httpuv_1.6.5          R.utils_2.11.0        RcppParallel_5.1.5    stats4_4.1.0          munsell_0.5.0         beeswarm_0.4.0        vipor_0.4.5           bslib_0.3.1          </code></pre>
+  [1] ggbeeswarm_0.6.0      colorspace_2.0-3      ellipsis_0.3.2       
+  [4] rprojroot_2.0.3       htmlTable_2.4.0       base64enc_0.1-3      
+  [7] fs_1.5.2              rstudioapi_0.13       farver_2.1.0         
+ [10] rstan_2.21.5          fansi_1.0.3           lubridate_1.8.0      
+ [13] xml2_1.3.3            codetools_0.2-18      splines_4.1.0        
+ [16] R.methodsS3_1.8.1     knitr_1.39            Formula_1.2-4        
+ [19] jsonlite_1.8.0        workflowr_1.7.0       broom_0.8.0          
+ [22] cluster_2.1.3         dbplyr_2.2.0          png_0.1-7            
+ [25] R.oo_1.24.0           compiler_4.1.0        httr_1.4.3           
+ [28] backports_1.4.1       assertthat_0.2.1      Matrix_1.4-1         
+ [31] fastmap_1.1.0         cli_3.3.0             later_1.3.0          
+ [34] htmltools_0.5.2       prettyunits_1.1.1     tools_4.1.0          
+ [37] gtable_0.3.0          glue_1.6.2            reshape2_1.4.4       
+ [40] Rcpp_1.0.8.3          cellranger_1.1.0      jquerylib_0.1.4      
+ [43] vctrs_0.4.1           crosstalk_1.2.0       iterators_1.0.14     
+ [46] xfun_0.31             ps_1.7.0              rvest_1.0.2          
+ [49] lifecycle_1.0.1       scales_1.2.0          hms_1.1.1            
+ [52] promises_1.2.0.1      parallel_4.1.0        inline_0.3.19        
+ [55] RColorBrewer_1.1-3    yaml_2.3.5            gridExtra_2.3        
+ [58] loo_2.5.1             StanHeaders_2.21.0-7  sass_0.4.1           
+ [61] rpart_4.1.16          latticeExtra_0.6-29   stringi_1.7.6        
+ [64] highr_0.9             foreach_1.5.2         checkmate_2.1.0      
+ [67] pkgbuild_1.3.1        leafcutter_0.2.9      matrixStats_0.62.0   
+ [70] intervals_0.15.2      rlang_1.0.2           pkgconfig_2.0.3      
+ [73] evaluate_0.15         lattice_0.20-45       labeling_0.4.2       
+ [76] rstantools_2.2.0.9000 htmlwidgets_1.5.4     tidyselect_1.1.2     
+ [79] processx_3.6.0        plyr_1.8.7            magrittr_2.0.3       
+ [82] R6_2.5.1              generics_0.1.2        Hmisc_4.7-0          
+ [85] DBI_1.1.2             pillar_1.7.0          haven_2.5.0          
+ [88] whisker_0.4           foreign_0.8-82        withr_2.5.0          
+ [91] survival_3.3-1        nnet_7.3-17           modelr_0.1.8         
+ [94] crayon_1.5.1          utf8_1.2.2            tzdb_0.3.0           
+ [97] rmarkdown_2.14        jpeg_0.1-9            grid_4.1.0           
+[100] readxl_1.4.0          callr_3.7.0           git2r_0.30.1         
+[103] reprex_2.0.1          digest_0.6.29         httpuv_1.6.5         
+[106] R.utils_2.11.0        RcppParallel_5.1.5    stats4_4.1.0         
+[109] munsell_0.5.0         beeswarm_0.4.0        vipor_0.4.5          
+[112] bslib_0.3.1          </code></pre>
 </div>
 </div>
 </div>
