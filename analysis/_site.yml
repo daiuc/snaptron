@@ -7,8 +7,7 @@ navbar:
     href: index.html
   - text: About
     href: about.html
-  - text: License
-    href: license.html
+logo: 'assets/logo.png'
 output:
   workflowr::wflow_html:
     toc: yes

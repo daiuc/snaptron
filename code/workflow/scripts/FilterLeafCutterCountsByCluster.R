@@ -1,3 +1,10 @@
+#' @title     Filter introns
+#' @author    Chao Dai
+#' @details   Filter out clusters of introns where total read counts across
+#'            the cluster and samples is less than 5 reads. Note, all introns
+#'            from such cluster will be removed. 
+
+
 library(tidyverse)
 library(data.table)
 

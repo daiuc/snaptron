@@ -59,7 +59,16 @@ rule GetLeafcutterCounts:
     run:
         import subprocess
 
-        N_chunks = max(1, round(len(params.Fields)/params.Chunk_Size)) # make sure at least 1 chunk
+        def getGroupN(sample_N, chunk_size, min_size=80):
+            import math
+    
+            if sample_N % chunk_size > min_size:
+                N = math.ceil(sample_N / chunk_size)
+            else:
+                N = math.floor(sample_N / chunk_size)
+            return max(1, N) # make sure at least 1 chunk
+
+        N_chunks = getGroupN(len(params.Fields), params.Chunk_Size, 80)
         cut_fields = []
         print(wildcards)
         print('## Splitting ' + str(len(params.Fields)) + ' samples into ' + str(N_chunks) + 
