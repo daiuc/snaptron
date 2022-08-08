@@ -370,7 +370,7 @@ gc()
 ```{r}
 # load Bladder intron level pvals
 tissue = params$tissue
-group = params$group[[1]]
+group = params$group[[2]]
 p_cutoff = as.numeric(params$p_cutoff)
 denom_cutoff = as.numeric(params$denom_cutoff)
 ```
