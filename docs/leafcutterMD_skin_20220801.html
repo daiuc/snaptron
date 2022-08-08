@@ -39,6 +39,14 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.23/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -526,15 +534,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree68a2e10e9576c6e678bfe6fa62315aeb9a2382cctargetblank68a2e10a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree8ddd307e3aa5b039987e3867595ca181c2f0069btargetblank8ddd307a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/daiuc/snaptron/tree/68a2e10e9576c6e678bfe6fa62315aeb9a2382cc" target="_blank">68a2e10</a>
+<a href="https://github.com/daiuc/snaptron/tree/8ddd307e3aa5b039987e3867595ca181c2f0069b" target="_blank">8ddd307</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree68a2e10e9576c6e678bfe6fa62315aeb9a2382cctargetblank68a2e10a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree8ddd307e3aa5b039987e3867595ca181c2f0069btargetblank8ddd307a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -544,7 +552,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/daiuc/snaptron/tree/68a2e10e9576c6e678bfe6fa62315aeb9a2382cc" target="_blank">68a2e10</a>.
+<a href="https://github.com/daiuc/snaptron/tree/8ddd307e3aa5b039987e3867595ca181c2f0069b" target="_blank">8ddd307</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -576,13 +584,8 @@ Ignored files:
     Ignored:    code/slurm_logs/
     Ignored:    code/test.R
     Ignored:    code/test.py
+    Ignored:    notebooks/.ipynb_checkpoints/
     Ignored:    slides/
-
-Untracked files:
-    Untracked:  notebooks/
-
-Unstaged changes:
-    Modified:   analysis/about.Rmd
 
 </code></pre>
 <p>
@@ -634,6 +637,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/daiuc/snaptron/blob/8ddd307e3aa5b039987e3867595ca181c2f0069b/analysis/leafcutterMD_skin_20220801.Rmd" target="_blank">8ddd307</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+<td>
+wflow_publish("leafcutterMD_skin_20220801.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/daiuc/snaptron/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/leafcutterMD_skin_20220801.html" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/daiuc/snaptron/blob/68a2e10e9576c6e678bfe6fa62315aeb9a2382cc/analysis/leafcutterMD_skin_20220801.Rmd" target="_blank">68a2e10</a>
 </td>
 <td>
@@ -672,21 +709,243 @@ class="section level3">
 <p>Some introns have significantly larger amount of total reads (over
 10k). May consider set threshold of denominator &lt; 5000.
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-6-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Subsampling 100k introns, (all belongs to a cluster that has at least
 1 outlier event). Plot suggests no apparent correlation between p value
 and read counts or denominators.</p>
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-7-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Outlier splicing events include many splicing events with intron
 excision ratio = 1.</p>
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-8-1">
+Past versions of unnamed-chunk-8-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-8-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-8-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some introns have very small ir deviations among samples, but
 leafcutterMD called one of these events having very significant
 p-values. For instance: the 5th intron.
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
+Past versions of unnamed-chunk-9-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-9-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-9-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Take a look at distribution of <code>sd(ir)</code>
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-10-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some samples have many more outlier splicing events
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-11-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="box-plot-with-filters" class="section level4">
 <h4>Box plot with filters</h4>
 <p>Consider further constrain outlier introns to:</p>
@@ -696,7 +955,81 @@ p-values. For instance: the 5th intron.
 <li>remove samples that have over 500 outlier samples</li>
 </ul>
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-12-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-13-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-13-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="box-plot-without-filters" class="section level4">
 <h4>Box plot without filters</h4>
@@ -709,11 +1042,85 @@ p-values. For instance: the 5th intron.
 without filters
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-14-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="figure" style="text-align: center">
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-15-1.png" alt="without filters" width="960" />
 <p class="caption">
 without filters
 </p>
+</div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
+Past versions of unnamed-chunk-15-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-15-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -722,22 +1129,53 @@ class="section level3">
 <h3>QQ plot of intron p-values from 4 randomly selected samples</h3>
 <!-- by sample -->
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-16-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <!-- qq plot of selected introns (not shown) -->
 </div>
 <div id="high-outlier-samples" class="section level3">
 <h3>high outlier samples</h3>
 <p>Samples with &gt; 500 outliers</p>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["rail_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["AGE"],"name":[3],"type":["int"],"align":["right"]},{"label":["Histological_Type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Analyte_Type"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SMPTHNTS"],"name":[6],"type":["chr"],"align":["left"]},{"label":["SMSMPSTE"],"name":[7],"type":["chr"],"align":["left"]},{"label":["SMSTYP"],"name":[8],"type":["chr"],"align":["left"]},{"label":["SMNABTCHT"],"name":[9],"type":["chr"],"align":["left"]},{"label":["TRTPTREF"],"name":[10],"type":["chr"],"align":["left"]},{"label":["DTHFUCOD"],"name":[11],"type":["chr"],"align":["left"]},{"label":["DTHMNNR"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"50114","2":"female","3":"51","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"50191","2":"female","3":"62","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, minimal fat, squamous epithelium is ~50-70 microns","7":"Leg, left","8":"Normal","9":"RNA Extraction from Paxgene-derived Lysate Plate Based","10":"Actual Death","11":"smoke asphyxiation","12":"Accident"},{"1":"50469","2":"male","3":"52","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"probable overdose","12":"Undetermined"},{"1":"50534","2":"male","3":"64","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Cerebral vascular accident","12":"Natural"},{"1":"50777","2":"female","3":"45","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"50789","2":"male","3":"60","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Metabolic acidosis related to diabetic ketoacidosis","12":"Natural"},{"1":"51080","2":"male","3":"57","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Heart Disease","12":"Natural"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-Samples with less than 100 outliers
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["rail_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["AGE"],"name":[3],"type":["int"],"align":["right"]},{"label":["Histological_Type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Analyte_Type"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SMPTHNTS"],"name":[6],"type":["chr"],"align":["left"]},{"label":["SMSMPSTE"],"name":[7],"type":["chr"],"align":["left"]},{"label":["SMSTYP"],"name":[8],"type":["chr"],"align":["left"]},{"label":["SMNABTCHT"],"name":[9],"type":["chr"],"align":["left"]},{"label":["TRTPTREF"],"name":[10],"type":["chr"],"align":["left"]},{"label":["DTHFUCOD"],"name":[11],"type":["chr"],"align":["left"]},{"label":["DTHMNNR"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"50139","2":"male","3":"60","4":"Skin","5":"RNA:Total RNA","6":"6 pieces; residual adipose tissue comprises ~5-10%; squamous epithelium is 1.5-3% of thickness.","7":"Leg, left","8":"Normal","9":"RNA Extraction from Paxgene-derived Lysate Plate Based","10":"Actual Death","11":"probable  myocardial infarction","12":"Natural"},{"1":"50180","2":"female","3":"57","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, up to 10x4mm. Well trimmed.","7":"Skin just above pubic hair","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"CPA","12":"Natural"},{"1":"50183","2":"male","3":"55","4":"Skin","5":"RNA:Total RNA","6":"6 pieces,  ~7x3mm.  Squamous epithelium is ~2-3% thickness","7":"Leg, left","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"cardiac arrest","12":"Natural"},{"1":"50198","2":"male","3":"43","4":"Skin","5":"RNA:Total RNA","6":"6 pieces  ~7x2mm.  Up to  ~1mm layer of fat on dermal surface of several, delineated.  Squamous mucosa is ~2-3% of thickness","7":"Leg, right","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"Asyphyxiation","12":"Accident"},{"1":"50208","2":"male","3":"50","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, adherent fat on most sections up to ~0.5mm; squamous epithelium is ~30-40 microns","7":"Skin just above pubic hair","8":"Normal","9":"RNA Extraction from Paxgene-derived Lysate Plate Based","10":"Actual Death","11":"Intracranial hemmorhage","12":"Natural"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+<div id="htmlwidget-d7278778b908ab64f8ad" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d7278778b908ab64f8ad">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7"],[50114,50191,50469,50534,50777,50789,51080],["female","female","male","male","female","male","male"],[51,62,52,64,45,60,57],["Skin","Skin","Skin","Skin","Skin","Skin","Skin"],["RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA"],[71246008,47122633,60081273,50020884,59999779,57669762,68703384],[null,"6 pieces, minimal fat, squamous epithelium is ~50-70 microns",null,null,null,null,null],[null,"Leg, left",null,null,null,null,null],["Normal","Normal","Normal","Normal","Normal","Normal","Normal"],["RNA isolation_Trizol Manual (Cell Pellet)","RNA Extraction from Paxgene-derived Lysate Plate Based","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)"],["Actual Death","Actual Death","Actual Death","Actual Death","Actual Death","Actual Death","Actual Death"],["ICH","smoke asphyxiation","probable overdose","Cerebral vascular accident","ICH","Metabolic acidosis related to diabetic ketoacidosis","Heart Disease"],["Natural","Accident","Undetermined","Natural","Natural","Natural","Natural"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>rail_id<\/th>\n      <th>Sex<\/th>\n      <th>AGE<\/th>\n      <th>Histological_Type<\/th>\n      <th>Analyte_Type<\/th>\n      <th>spots<\/th>\n      <th>SMPTHNTS<\/th>\n      <th>SMSMPSTE<\/th>\n      <th>SMSTYP<\/th>\n      <th>SMNABTCHT<\/th>\n      <th>TRTPTREF<\/th>\n      <th>DTHFUCOD<\/th>\n      <th>DTHMNNR<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,3,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Samples with less than 100 outliers</p>
+<div id="htmlwidget-18bfbb4af4b1a9a811f1" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-18bfbb4af4b1a9a811f1">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5"],[50139,50180,50183,50198,50208],["male","female","male","male","male"],[60,57,55,43,50],["Skin","Skin","Skin","Skin","Skin"],["RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA"],[55912727,48017227,47823643,46573141,45817927],["6 pieces; residual adipose tissue comprises ~5-10%; squamous epithelium is 1.5-3% of thickness.","6 pieces, up to 10x4mm. Well trimmed.","6 pieces,  ~7x3mm.  Squamous epithelium is ~2-3% thickness","6 pieces  ~7x2mm.  Up to  ~1mm layer of fat on dermal surface of several, delineated.  Squamous mucosa is ~2-3% of thickness","6 pieces, adherent fat on most sections up to ~0.5mm; squamous epithelium is ~30-40 microns"],["Leg, left","Skin just above pubic hair","Leg, left","Leg, right","Skin just above pubic hair"],["Normal","Normal","Normal","Normal","Normal"],["RNA Extraction from Paxgene-derived Lysate Plate Based","RNA isolation_PAXgene Tissue miRNA","RNA isolation_PAXgene Tissue miRNA","RNA isolation_PAXgene Tissue miRNA","RNA Extraction from Paxgene-derived Lysate Plate Based"],["Actual Death","Actual Death","Actual Death","Actual Death","Actual Death"],["probable  myocardial infarction","CPA","cardiac arrest","Asyphyxiation","Intracranial hemmorhage"],["Natural","Natural","Natural","Accident","Natural"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>rail_id<\/th>\n      <th>Sex<\/th>\n      <th>AGE<\/th>\n      <th>Histological_Type<\/th>\n      <th>Analyte_Type<\/th>\n      <th>spots<\/th>\n      <th>SMPTHNTS<\/th>\n      <th>SMSMPSTE<\/th>\n      <th>SMSTYP<\/th>\n      <th>SMNABTCHT<\/th>\n      <th>TRTPTREF<\/th>\n      <th>DTHFUCOD<\/th>\n      <th>DTHMNNR<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,3,6]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <hr />
 </div>
 </div>
@@ -757,21 +1195,243 @@ class="section level3">
 <p>Some introns have significantly larger amount of total reads (over
 10k). May consider set threshold of denominator &lt; 5000.
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-27-1">
+Past versions of unnamed-chunk-27-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-27-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-27-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Subsampling 100k introns, (all belongs to a cluster that has at least
 1 outlier event). Plot suggests no apparent correlation between p value
 and read counts or denominators.</p>
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-28-1">
+Past versions of unnamed-chunk-28-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-28-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-28-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Outlier splicing events include many splicing events with intron
 excision ratio = 1.</p>
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-29-1">
+Past versions of unnamed-chunk-29-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-29-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-29-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some introns have very small ir deviations among samples, but
 leafcutterMD called one of these events having very significant
 p-values. For instance: the 5th intron.
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-30-1">
+Past versions of unnamed-chunk-30-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-30-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-30-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Take a look at distribution of <code>sd(ir)</code>
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-31-1">
+Past versions of unnamed-chunk-31-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-31-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-31-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Some samples have many more outlier splicing events
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-32-1">
+Past versions of unnamed-chunk-32-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-32-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-32-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="box-plot-with-filters-1" class="section level4">
 <h4>Box plot with filters</h4>
 <p>Consider further constrain outlier introns to:</p>
@@ -781,7 +1441,81 @@ p-values. For instance: the 5th intron.
 <li>remove samples that have over 500 outlier samples</li>
 </ul>
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-33-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-33-1">
+Past versions of unnamed-chunk-33-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-33-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-33-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-34-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-34-1">
+Past versions of unnamed-chunk-34-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-34-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-34-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="box-plot-without-filters-1" class="section level4">
 <h4>Box plot without filters</h4>
@@ -794,11 +1528,85 @@ p-values. For instance: the 5th intron.
 without filters
 </p>
 </div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-35-1">
+Past versions of unnamed-chunk-35-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-35-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-35-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="figure" style="text-align: center">
 <img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-36-1.png" alt="without filters" width="960" />
 <p class="caption">
 without filters
 </p>
+</div>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-36-1">
+Past versions of unnamed-chunk-36-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-36-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-36-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -807,22 +1615,53 @@ class="section level3">
 <h3>QQ plot of intron p-values from 4 randomly selected samples</h3>
 <!-- by sample -->
 <p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-37-1">
+Past versions of unnamed-chunk-37-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-37-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/223cac8e057da3f1d6cd14af5b698364ed0c7f58/docs/figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-37-1.png" target="_blank">223cac8</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <!-- qq plot of selected introns (not shown) -->
 </div>
 <div id="high-outlier-samples-1" class="section level3">
 <h3>high outlier samples</h3>
 <p>Samples with &gt; 500 outliers</p>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["rail_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["AGE"],"name":[3],"type":["int"],"align":["right"]},{"label":["Histological_Type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Analyte_Type"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SMPTHNTS"],"name":[6],"type":["chr"],"align":["left"]},{"label":["SMSMPSTE"],"name":[7],"type":["chr"],"align":["left"]},{"label":["SMSTYP"],"name":[8],"type":["chr"],"align":["left"]},{"label":["SMNABTCHT"],"name":[9],"type":["chr"],"align":["left"]},{"label":["TRTPTREF"],"name":[10],"type":["chr"],"align":["left"]},{"label":["DTHFUCOD"],"name":[11],"type":["chr"],"align":["left"]},{"label":["DTHMNNR"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"51067","2":"male","3":"53","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, up to 8x4mm; squamous epithelium is ~2.5-3% thickness.  Solar elastosis of papillary dermis","7":"Leg, left","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"SIGSW","12":"Suicide"},{"1":"51396","2":"female","3":"22","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Cardiovascular","12":"Natural"},{"1":"51443","2":"female","3":"67","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"heart disease","12":"Natural"},{"1":"51719","2":"male","3":"40","4":"Skin","5":"RNA:Total RNA","6":"6 pieces up to 7.7x2.6 mm; several sectioning lines and tissue tears","7":"Leg, right","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"51720","2":"male","3":"47","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"unknown","12":"Natural"},{"1":"51723","2":"male","3":"48","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"SIGSW","12":"Suicide"},{"1":"51726","2":"male","3":"52","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"51818","2":"male","3":"61","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Heart disease","12":"Natural"},{"1":"51834","2":"male","3":"51","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"52035","2":"male","3":"59","4":"Skin","5":"RNA:Total RNA","6":"6 pieces   ~8x2mm.  Squamous epithelium is ~2-3% of thickness","7":"Leg, left","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"Blunt Injury","12":"Accident"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-Samples with less than 100 outliers
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":["rail_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["AGE"],"name":[3],"type":["int"],"align":["right"]},{"label":["Histological_Type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Analyte_Type"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SMPTHNTS"],"name":[6],"type":["chr"],"align":["left"]},{"label":["SMSMPSTE"],"name":[7],"type":["chr"],"align":["left"]},{"label":["SMSTYP"],"name":[8],"type":["chr"],"align":["left"]},{"label":["SMNABTCHT"],"name":[9],"type":["chr"],"align":["left"]},{"label":["TRTPTREF"],"name":[10],"type":["chr"],"align":["left"]},{"label":["DTHFUCOD"],"name":[11],"type":["chr"],"align":["left"]},{"label":["DTHMNNR"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"51039","2":"male","3":"59","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"NA","12":"Natural"},{"1":"51104","2":"male","3":"21","4":"Skin","5":"RNA:Total RNA","6":"6 pieces up to 7x4 mm; thin remnant of subcutaneous fat","7":"Leg, right","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"Seizure","12":"Natural"},{"1":"51113","2":"female","3":"67","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, up to 8x2mm; well trimmed but with central holes (artifacts)","7":"Leg, left","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"subdural hematoma secondary to fall","12":"Accident"},{"1":"51124","2":"female","3":"52","4":"Skin","5":"RNA:Total RNA","6":"6 pieces up to 7x3 mm;","7":"Leg, left","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"anoxia secondary to hanging","12":"Suicide"},{"1":"51126","2":"male","3":"55","4":"Skin","5":"RNA:Total RNA","6":"6 pieces,   ~8.5x2mm.  Squamous epithelium is 2-3% of thickness","7":"Leg, left","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
+<div id="htmlwidget-8911cad1227654f61dc9" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8911cad1227654f61dc9">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10"],[51067,51396,51443,51719,51720,51723,51726,51818,51834,52035],["male","female","female","male","male","male","male","male","male","male"],[53,22,67,40,47,48,52,61,51,59],["Skin","Skin","Skin","Skin","Skin","Skin","Skin","Skin","Skin","Skin"],["RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA"],["6 pieces, up to 8x4mm; squamous epithelium is ~2.5-3% thickness.  Solar elastosis of papillary dermis",null,null,"6 pieces up to 7.7x2.6 mm; several sectioning lines and tissue tears",null,null,null,null,null,"6 pieces   ~8x2mm.  Squamous epithelium is ~2-3% of thickness"],["Leg, left",null,null,"Leg, right",null,null,null,null,null,"Leg, left"],["Normal","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Normal"],["RNA isolation_PAXgene Tissue miRNA","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_PAXgene Tissue miRNA","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_PAXgene Tissue miRNA"],["Actual Death","Actual Death","Actual Death","Actual Death","Actual Death","Actual Death","Actual Death","Actual Death","Actual Death","Actual Death"],["SIGSW","Cardiovascular","heart disease","ICH","unknown","SIGSW","ICH","Heart disease","ICH","Blunt Injury"],["Suicide","Natural","Natural","Natural","Natural","Suicide","Natural","Natural","Natural","Accident"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>rail_id<\/th>\n      <th>Sex<\/th>\n      <th>AGE<\/th>\n      <th>Histological_Type<\/th>\n      <th>Analyte_Type<\/th>\n      <th>SMPTHNTS<\/th>\n      <th>SMSMPSTE<\/th>\n      <th>SMSTYP<\/th>\n      <th>SMNABTCHT<\/th>\n      <th>TRTPTREF<\/th>\n      <th>DTHFUCOD<\/th>\n      <th>DTHMNNR<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<p>Samples with less than 100 outliers</p>
+<div id="htmlwidget-99595fef223a467e6b9b" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-99595fef223a467e6b9b">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5"],[51039,51104,51113,51124,51126],["male","male","female","female","male"],[59,21,67,52,55],["Skin","Skin","Skin","Skin","Skin"],["RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA","RNA:Total RNA"],[null,"6 pieces up to 7x4 mm; thin remnant of subcutaneous fat","6 pieces, up to 8x2mm; well trimmed but with central holes (artifacts)","6 pieces up to 7x3 mm;","6 pieces,   ~8.5x2mm.  Squamous epithelium is 2-3% of thickness"],[null,"Leg, right","Leg, left","Leg, left","Leg, left"],["Normal","Normal","Normal","Normal","Normal"],["RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_PAXgene Tissue miRNA","RNA isolation_PAXgene Tissue miRNA","RNA isolation_Trizol Manual (Cell Pellet)","RNA isolation_Trizol Manual (Cell Pellet)"],["Actual Death","Actual Death","Actual Death","Actual Death","Actual Death"],[null,"Seizure","subdural hematoma secondary to fall","anoxia secondary to hanging","ICH"],["Natural","Natural","Accident","Suicide","Natural"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>rail_id<\/th>\n      <th>Sex<\/th>\n      <th>AGE<\/th>\n      <th>Histological_Type<\/th>\n      <th>Analyte_Type<\/th>\n      <th>SMPTHNTS<\/th>\n      <th>SMSMPSTE<\/th>\n      <th>SMSTYP<\/th>\n      <th>SMNABTCHT<\/th>\n      <th>TRTPTREF<\/th>\n      <th>DTHFUCOD<\/th>\n      <th>DTHMNNR<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"columnDefs":[{"className":"dt-right","targets":[1,3]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -871,30 +1710,30 @@ loaded via a namespace (and not attached):
  [37] htmltools_0.5.2       tools_4.1.0           gtable_0.3.0         
  [40] glue_1.6.2            reshape2_1.4.4        Rcpp_1.0.8.3         
  [43] cellranger_1.1.0      jquerylib_0.1.4       vctrs_0.4.1          
- [46] iterators_1.0.14      xfun_0.31             ps_1.7.0             
- [49] globals_0.15.0        rvest_1.0.2           lifecycle_1.0.1      
- [52] scales_1.2.0          hms_1.1.1             promises_1.2.0.1     
- [55] parallel_4.1.0        inline_0.3.19         RColorBrewer_1.1-3   
- [58] yaml_2.3.5            gridExtra_2.3         loo_2.5.1            
- [61] StanHeaders_2.21.0-7  sass_0.4.1            rpart_4.1.16         
- [64] latticeExtra_0.6-29   stringi_1.7.6         highr_0.9            
- [67] foreach_1.5.2         checkmate_2.1.0       pkgbuild_1.3.1       
- [70] leafcutter_0.2.9      matrixStats_0.62.0    intervals_0.15.2     
- [73] rlang_1.0.2           pkgconfig_2.0.3       evaluate_0.15        
- [76] lattice_0.20-45       rstantools_2.2.0.9000 htmlwidgets_1.5.4    
- [79] labeling_0.4.2        bit_4.0.4             processx_3.6.0       
- [82] tidyselect_1.1.2      parallelly_1.32.0     plyr_1.8.7           
- [85] magrittr_2.0.3        R6_2.5.1              generics_0.1.2       
- [88] Hmisc_4.7-0           DBI_1.1.2             pillar_1.7.0         
- [91] haven_2.5.0           whisker_0.4           foreign_0.8-82       
- [94] withr_2.5.0           survival_3.3-1        nnet_7.3-17          
- [97] modelr_0.1.8          crayon_1.5.1          utf8_1.2.2           
-[100] tzdb_0.3.0            rmarkdown_2.14        jpeg_0.1-9           
-[103] grid_4.1.0            readxl_1.4.0          callr_3.7.0          
-[106] git2r_0.30.1          reprex_2.0.1          digest_0.6.29        
-[109] httpuv_1.6.5          R.utils_2.11.0        RcppParallel_5.1.5   
-[112] stats4_4.1.0          munsell_0.5.0         beeswarm_0.4.0       
-[115] vipor_0.4.5           bslib_0.3.1          </code></pre>
+ [46] crosstalk_1.2.0       iterators_1.0.14      xfun_0.31            
+ [49] ps_1.7.0              globals_0.15.0        rvest_1.0.2          
+ [52] lifecycle_1.0.1       scales_1.2.0          hms_1.1.1            
+ [55] promises_1.2.0.1      parallel_4.1.0        inline_0.3.19        
+ [58] RColorBrewer_1.1-3    yaml_2.3.5            gridExtra_2.3        
+ [61] loo_2.5.1             StanHeaders_2.21.0-7  sass_0.4.1           
+ [64] rpart_4.1.16          latticeExtra_0.6-29   stringi_1.7.6        
+ [67] highr_0.9             foreach_1.5.2         checkmate_2.1.0      
+ [70] pkgbuild_1.3.1        leafcutter_0.2.9      matrixStats_0.62.0   
+ [73] intervals_0.15.2      rlang_1.0.2           pkgconfig_2.0.3      
+ [76] evaluate_0.15         lattice_0.20-45       rstantools_2.2.0.9000
+ [79] htmlwidgets_1.5.4     labeling_0.4.2        bit_4.0.4            
+ [82] processx_3.6.0        tidyselect_1.1.2      parallelly_1.32.0    
+ [85] plyr_1.8.7            magrittr_2.0.3        R6_2.5.1             
+ [88] generics_0.1.2        Hmisc_4.7-0           DBI_1.1.2            
+ [91] pillar_1.7.0          haven_2.5.0           whisker_0.4          
+ [94] foreign_0.8-82        withr_2.5.0           survival_3.3-1       
+ [97] nnet_7.3-17           modelr_0.1.8          crayon_1.5.1         
+[100] utf8_1.2.2            tzdb_0.3.0            rmarkdown_2.14       
+[103] jpeg_0.1-9            grid_4.1.0            readxl_1.4.0         
+[106] callr_3.7.0           git2r_0.30.1          reprex_2.0.1         
+[109] digest_0.6.29         httpuv_1.6.5          R.utils_2.11.0       
+[112] RcppParallel_5.1.5    stats4_4.1.0          munsell_0.5.0        
+[115] beeswarm_0.4.0        vipor_0.4.5           bslib_0.3.1          </code></pre>
 </div>
 </div>
 </div>
