@@ -1,6 +1,6 @@
 ---
 params:
-    tissue: Muscle
+    tissue: Skin
     group: 
     - group0
     - group1

@@ -16,5 +16,5 @@ editor_options:
 
 - [Samples](sample_analysis.html)
 
-- [leafcutterMD analysis - Muscle](leafcutterMD_20220801.html)
-- [leafcutterMD analysis - Skin](leafcutterMD_skin_20220801.html)
+- [leafcutterMD analysis - Muscle](leafcutterMD_20220808.html)
+- [leafcutterMD analysis - Skin](leafcutterMD_skin_20220808.html)
