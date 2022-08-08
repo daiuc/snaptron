@@ -1,6 +1,6 @@
 ---
 params:
-    tissue: Skin
+    tissue: Muscle
     group: 
     - group0
     - group1
@@ -341,7 +341,7 @@ Samples with > 500 outliers
 
 ```{r}
 GTEx[rail_id %in% samples_set1][
-  , .(rail_id, Sex, AGE, Histological_Type, Analyte_Type, spots, SMPTHNTS, SMSMPSTE, SMSTYP, SMNABTCHT, TRTPTREF, DTHFUCOD, DTHMNNR)
+  , .(rail_id, Sex, AGE, Histological_Type, Analyte_Type, SMPTHNTS, SMSMPSTE, SMSTYP, SMNABTCHT, TRTPTREF, DTHFUCOD, DTHMNNR)
 ]
 
 ```
@@ -351,7 +351,7 @@ Samples with less than 100 outliers
 ```{r}
 
 GTEx[rail_id %in% samples_set2][
-  , .(rail_id, Sex, AGE, Histological_Type, Analyte_Type, spots, SMPTHNTS, SMSMPSTE, SMSTYP, SMNABTCHT, TRTPTREF, DTHFUCOD, DTHMNNR)
+  , .(rail_id, Sex, AGE, Histological_Type, Analyte_Type, SMPTHNTS, SMSMPSTE, SMSTYP, SMNABTCHT, TRTPTREF, DTHFUCOD, DTHMNNR)
 ]
 ```
 
@@ -643,7 +643,7 @@ Samples with > 500 outliers
 ```{r}
 GTEx[rail_id %in% samples_set1][
   , .(rail_id, Sex, AGE, Histological_Type, Analyte_Type, SMPTHNTS, SMSMPSTE, SMSTYP, SMNABTCHT, TRTPTREF, DTHFUCOD, DTHMNNR)
-] 
+]
 
 ```
 
