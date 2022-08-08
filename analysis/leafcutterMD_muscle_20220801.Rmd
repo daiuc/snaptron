@@ -214,6 +214,16 @@ outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples] %>%
     theme(legend.position = "None", axis.text.x = element_blank())
 ```
  
+```{r}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot() + stat_ecdf(aes(N)) +
+    scale_x_log10() + 
+    labs(x = NULL, y = NULL) + 
+    theme_bw()
+```
+```{r}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples][, N] %>% quantile(seq(0.5,1, .05))
+```
 
 
 
@@ -514,7 +524,17 @@ outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples] %>%
     theme_bw() +
     theme(legend.position = "None", axis.text.x = element_blank())
 ```
- 
+
+```{r}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot() + stat_ecdf(aes(N)) +
+    scale_x_log10() + 
+    labs(x = NULL, y = NULL) + 
+    theme_bw()
+```
+```{r}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples][, N] %>% quantile(seq(0.5,1, .05))
+```
 
 
 
