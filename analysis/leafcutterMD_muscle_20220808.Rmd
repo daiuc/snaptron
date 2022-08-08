@@ -1,0 +1,582 @@
+---
+params:
+    tissue: Muscle
+    group: 
+    - group0
+    - group1
+    - group2
+    p_cutoff: 1e-8
+    denom_cutoff: 30
+    ir_dist_cutoff: 0.1
+title: "LeafcutterMD Analyses - GTEx `r params$tissue`"
+author: "Chao Dai"
+date: "updated `r Sys.Date()`"
+
+output: 
+  bookdown::html_document2:
+    toc: yes
+    toc_float: no
+    theme: readable
+    highlight: textmate
+    code_folding: hide
+    df_print: paged
+editor_options:
+  chunk_output_type: inline
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = F, message = F, echo = F)
+
+library(tidyverse)
+library(data.table)
+library(ggrastr)
+library(ggrepel)
+library(DT)
+library(tictoc)
+library(forcats)
+
+theme_set(new = theme_bw())
+```
+
+```{r helper-functions, include=FALSE}
+# convert a string entry such as "3/4" in to a double "0.75"
+# counts file were stored as string of fractions
+frac_to_dbl = function(frac_str) {
+  frac = str_split(frac_str, "/", simplify=T) %>% as.numeric
+  if (frac[[1]] == 0) {
+    out = 0
+  } else {
+    out = frac[[1]] / frac[[2]]
+  }
+  return(out)
+}
+
+
+
+get_denom = function(frac_str) {
+  # get denominator from a fraction string, eg. get 4 from "3/4"
+  frac = str_split(frac_str, "/", simplify=T) %>% as.numeric
+  return(frac[[2]])
+}
+```
+
+<!-- ---------------------------------------------------- -->
+
+# GTEx `r params$tissue` {.tabset}
+
+
+
+## `r params$group[[1]]`
+
+```{r}
+# load Bladder intron level pvals
+tissue = params$tissue
+group = params$group[[1]]
+p_cutoff = as.numeric(params$p_cutoff)
+denom_cutoff = as.numeric(params$denom_cutoff)
+ir_dist_cutoff = as.numeric(params$ir_dist_cutoff)
+```
+
+```{r}
+intron = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue, "/",  group, "_pVals.txt.gz"))
+#cluster = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue , "/", group, "_clusterPvals.txt.gz"))
+nums = fread(paste0("../code/results/SubsetCounts/GTEx/", tissue, "/nums_filtered/", group, "_perind.nums.gz"))
+counts = fread(paste0("../code/results/SubsetCounts/GTEx/", tissue, "/counts/", group, "_perind.counts.gz"),
+               header = T)
+
+# rename first column
+intron = rename(intron, "chrom" = "V1")
+nums = rename(nums, "chrom" = "V1")
+
+# add rowMin
+intron_rowMins = select(intron, where(is_numeric)) %>% apply(1, min)
+intron$rowMins = intron_rowMins # add min p-val per intron
+```
+
+### Intron selection
+
+An intron excision is considered outlier only if: 
+
+  1.  p-value of a given intron excision event \< `r scales::scientific(p_cutoff)`
+  2.  **AND** total reads of the cluster \> `r denom_cutoff`
+  3. **AND** intron excision ratio is at least `r params$ir_dist_cutoff` away from median
+
+```{r}
+
+# data.table of introns with that have outlier events
+# note this is not the final outlier introns yet, as 
+# we have to also filter by denominator
+outlier_introns = intron[ rowMins < p_cutoff, -c('rowMins')] %>% unique
+
+# get the counts of the same introns
+outlier_counts = counts[chrom %in% outlier_introns$chrom]
+
+# melt outlier intron and counts
+outlier_introns = melt(outlier_introns, id.vars = "chrom", variable.name = "samples", value.name = "p")
+outlier_counts = melt(outlier_counts, id.vars = "chrom", variable.name = "samples", value.name = "frac")
+
+# further filter by denominator
+outlier_introns = outlier_introns[outlier_counts, on = c("chrom", "samples"), nomatch = NULL]
+```
+
+```{r}
+library(furrr)
+plan(multisession, workers = availableCores())
+
+denom = future_map_dbl(outlier_introns$frac, get_denom)
+ir = future_map_dbl(outlier_introns$frac, frac_to_dbl)
+
+outlier_introns$denom = denom
+outlier_introns$ir = ir
+
+```
+
+```{r}
+# add in reads
+outlier_introns = melt(nums, id.vars = "chrom", variable.name = "samples", value.name = "rc")[
+  outlier_introns, on = c("chrom", "samples"), nomatch = NULL
+]
+```
+
+```{r}
+# median IR per intron
+outlier_introns[, median_ir := median(ir), by = chrom]
+outlier_introns[, dist_ir := abs(median_ir - ir)]
+
+# putative outlier
+outlier_introns[, outlier := p < p_cutoff & denom > denom_cutoff & dist_ir > ir_dist_cutoff]
+
+# outlier intron ids
+outlier_introns_chroms = outlier_introns[outlier == T, chrom] %>% unique
+
+outlier_introns = outlier_introns[chrom %in% outlier_introns_chroms]
+```
+
+
+
+
+### Outlier intron's reads and denom distribution
+
+Some introns have significantly larger amount of total reads (over 10k). May consider set threshold of denominator < 5000. 
+```{r}
+
+outlier_introns[outlier == T] %>% 
+  ggplot() + stat_ecdf(aes(denom, color = 'denominator') ) +
+    stat_ecdf(aes(rc, color = 'numerator')) + 
+    scale_x_log10(label = scales::number_format(1)) +
+    labs(x = "Outlier introns", y = NULL, color = "measure", caption = "numerator: reads per intron per sample \ndenominator: reads per cluster per sample") +
+    theme_bw()
+
+```
+
+Subsampling 100k introns, (all belongs to a cluster that has at least 1 outlier event). Plot suggests no apparent correlation between p value and read counts or denominators. 
+
+```{r}
+p = outlier_introns[sample(1:nrow(outlier_introns), 100000)] %>% 
+  ggplot() + geom_point(aes( rc,-log10(p), color = 'numerator'), alpha = .2 ) +
+    geom_point(aes( denom, -log10(p),color = 'denominator'), alpha = .1 ) + 
+    scale_x_log10(label = scales::number_format()) +
+    labs(x = 'Subsampled 100k introns', y = '-log10(p)', color = "measure") +
+    theme_bw()
+rasterize(p, layers = "point", dpi = 50)
+```
+
+Take a look at distribution of `sd(ir)`
+```{r}
+outlier_introns[, .(ir_sd = sd(ir)), by = chrom] %>% 
+  ggplot() + stat_ecdf(aes(ir_sd)) + 
+    labs(x = "sd of intron excision ratio", y = NULL) + 
+    theme_bw() 
+```
+
+ Some samples have many more outlier splicing events
+```{r, width = 8}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot()  + geom_col(aes(fct_reorder(samples, -N), N, fill = samples)) + 
+    geom_text_repel(aes(fct_reorder(samples, -N), N, label = samples), 
+                    data = outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples][N > 500]) + 
+    labs(x = NULL) + 
+    scale_y_log10() + 
+    theme_bw() +
+    theme(legend.position = "None", axis.text.x = element_blank())
+```
+ 
+```{r}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot() + stat_ecdf(aes(N)) +
+    scale_x_log10() + 
+    labs(x = NULL, y = NULL) + 
+    theme_bw()
+```
+```{r}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples][, N] %>% quantile(seq(0.5,1, .05))
+```
+
+
+
+#### Box plot
+
+There are `r outlier_introns[outlier == T, chrom] %>% unique %>% length` outlier introns. 
+
+```{r fig.width=10, fig.height=6, fig.cap="without filters"}
+
+excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by = samples][N > 500, samples] %>% as.character
+select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
+
+p2 = outlier_introns[chrom %in% select_chroms] %>% 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
+    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier), alpha = .4) +
+    geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
+                    data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
+    labs(x = NULL, y = "Intron excision ratio") + 
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 90))
+
+rasterize(p2, layers = "point", dpi=50)
+```
+
+```{r fig.width=10, fig.height=6}
+
+excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by = samples][N > 500, samples] %>% as.character
+select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
+
+p2 = outlier_introns[chrom %in% select_chroms] %>% 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
+    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier), alpha = .4) +
+    labs(x = NULL, y = "reads") + 
+    scale_y_log10() + 
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 90))
+
+rasterize(p2, layers = "point", dpi=50)
+```
+
+
+
+
+### QQ plot of intron p-values from 4 randomly selected samples
+
+<!-- by sample -->
+
+```{r  fig.caption = "QQ plot of randomly selected samples"}
+# QQ plot of min cluster p-values
+pick_4_samples = outlier_introns$samples %>% as.character %>% sample(4)
+qq = leafcutter::multiqq(structure(as.list(intron[, ..pick_4_samples]), names = pick_4_samples))
+rasterize(qq, layers = 'point', dpi = 50)
+```
+
+<!-- qq plot of selected introns (not shown) -->
+
+```{r fig.cap="QQ plot of introns with outlier splicing", include=FALSE, eval=FALSE}
+intron[cluster %in% outlier_clusters & rowMins < p_cutoff][
+  order(rowMins)][1:1000,] %>% 
+  .[, -c("cluster", "rowMins")] %>% 
+  column_to_rownames("chrom") %>% t %>% as.data.frame %>% as.list %>% 
+  leafcutter::multiqq(.) + theme_bw() + 
+    guides(color = guide_legend(nrow=2, title=NULL)) + 
+    theme(legend.position = "bottom")
+```
+
+
+
+
+
+### high outlier samples
+
+```{r}
+samples_set1 = outlier_introns[outlier == T][
+  , .(N = length(unique(chrom))), by = samples][
+    N > 500, samples
+  ] %>% as.character
+
+samples_set2 = outlier_introns[outlier == T][
+  , .(N = length(unique(chrom))), by = samples][
+    N < 100, samples
+  ] %>% as.character
+
+GTEx = fread("../code/resources/snaptron-yil/scripts/data/samples_gtex.tsv")
+
+```
+
+
+Samples with > 500 outliers
+
+```{r}
+GTEx[rail_id %in% samples_set1][
+  , .(rail_id, Sex, AGE, Histological_Type, Analyte_Type, SMPTHNTS, SMSMPSTE, SMSTYP, SMNABTCHT, TRTPTREF, DTHFUCOD, DTHMNNR)
+]
+
+```
+
+
+Samples with less than 100 outliers
+```{r}
+
+GTEx[rail_id %in% samples_set2][
+  , .(rail_id, Sex, AGE, Histological_Type, Analyte_Type, SMPTHNTS, SMSMPSTE, SMSTYP, SMNABTCHT, TRTPTREF, DTHFUCOD, DTHMNNR)
+] %>% head
+```
+
+```{r include=FALSE}
+rm(intron, counts, denom, outlier_introns, nums)
+gc()
+```
+
+------
+
+
+## `r params$group[[2]]`
+
+```{r}
+# load Bladder intron level pvals
+tissue = params$tissue
+group = params$group[[2]]
+p_cutoff = as.numeric(params$p_cutoff)
+denom_cutoff = as.numeric(params$denom_cutoff)
+ir_dist_cutoff = as.numeric(params$ir_dist_cutoff)
+```
+
+```{r}
+intron = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue, "/",  group, "_pVals.txt.gz"))
+#cluster = fread(paste0("../code/results/leafcutterMD/GTEx/", tissue , "/", group, "_clusterPvals.txt.gz"))
+nums = fread(paste0("../code/results/SubsetCounts/GTEx/", tissue, "/nums_filtered/", group, "_perind.nums.gz"))
+counts = fread(paste0("../code/results/SubsetCounts/GTEx/", tissue, "/counts/", group, "_perind.counts.gz"),
+               header = T)
+
+# rename first column
+intron = rename(intron, "chrom" = "V1")
+nums = rename(nums, "chrom" = "V1")
+
+# add rowMin
+intron_rowMins = select(intron, where(is_numeric)) %>% apply(1, min)
+intron$rowMins = intron_rowMins # add min p-val per intron
+```
+
+### Intron selection
+
+An intron excision is considered outlier only if: 
+
+  1.  p-value of a given intron excision event \< `r scales::scientific(p_cutoff)`
+  2.  **AND** total reads of the cluster \> `r denom_cutoff`
+  3. **AND** intron excision ratio is at least `r params$ir_dist_cutoff` away from median
+
+```{r}
+
+# data.table of introns with that have outlier events
+# note this is not the final outlier introns yet, as 
+# we have to also filter by denominator
+outlier_introns = intron[ rowMins < p_cutoff, -c('rowMins')] %>% unique
+
+# get the counts of the same introns
+outlier_counts = counts[chrom %in% outlier_introns$chrom]
+
+# melt outlier intron and counts
+outlier_introns = melt(outlier_introns, id.vars = "chrom", variable.name = "samples", value.name = "p")
+outlier_counts = melt(outlier_counts, id.vars = "chrom", variable.name = "samples", value.name = "frac")
+
+# further filter by denominator
+outlier_introns = outlier_introns[outlier_counts, on = c("chrom", "samples"), nomatch = NULL]
+```
+
+```{r}
+library(furrr)
+plan(multisession, workers = availableCores())
+
+denom = future_map_dbl(outlier_introns$frac, get_denom)
+ir = future_map_dbl(outlier_introns$frac, frac_to_dbl)
+
+outlier_introns$denom = denom
+outlier_introns$ir = ir
+
+```
+
+```{r}
+# add in reads
+outlier_introns = melt(nums, id.vars = "chrom", variable.name = "samples", value.name = "rc")[
+  outlier_introns, on = c("chrom", "samples"), nomatch = NULL
+]
+```
+
+```{r}
+# median IR per intron
+outlier_introns[, median_ir := median(ir), by = chrom]
+outlier_introns[, dist_ir := abs(median_ir - ir)]
+
+# putative outlier
+outlier_introns[, outlier := p < p_cutoff & denom > denom_cutoff & dist_ir > ir_dist_cutoff]
+
+# outlier intron ids
+outlier_introns_chroms = outlier_introns[outlier == T, chrom] %>% unique
+
+outlier_introns = outlier_introns[chrom %in% outlier_introns_chroms]
+```
+
+
+
+
+### Outlier intron's reads and denom distribution
+
+Some introns have significantly larger amount of total reads (over 10k). May consider set threshold of denominator < 5000. 
+```{r}
+
+outlier_introns[outlier == T] %>% 
+  ggplot() + stat_ecdf(aes(denom, color = 'denominator') ) +
+    stat_ecdf(aes(rc, color = 'numerator')) + 
+    scale_x_log10(label = scales::number_format(1)) +
+    labs(x = "Outlier introns", y = NULL, color = "measure", caption = "numerator: reads per intron per sample \ndenominator: reads per cluster per sample") +
+    theme_bw()
+
+```
+
+Subsampling 100k introns, (all belongs to a cluster that has at least 1 outlier event). Plot suggests no apparent correlation between p value and read counts or denominators. 
+
+```{r}
+p = outlier_introns[sample(1:nrow(outlier_introns), 100000)] %>% 
+  ggplot() + geom_point(aes( rc,-log10(p), color = 'numerator'), alpha = .2 ) +
+    geom_point(aes( denom, -log10(p),color = 'denominator'), alpha = .1 ) + 
+    scale_x_log10(label = scales::number_format()) +
+    labs(x = 'Subsampled 100k introns', y = '-log10(p)', color = "measure") +
+    theme_bw()
+rasterize(p, layers = "point", dpi = 50)
+```
+
+Take a look at distribution of `sd(ir)`
+```{r}
+outlier_introns[, .(ir_sd = sd(ir)), by = chrom] %>% 
+  ggplot() + stat_ecdf(aes(ir_sd)) + 
+    labs(x = "sd of intron excision ratio", y = NULL) + 
+    theme_bw() 
+```
+
+ Some samples have many more outlier splicing events
+```{r, width = 8}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot()  + geom_col(aes(fct_reorder(samples, -N), N, fill = samples)) + 
+    geom_text_repel(aes(fct_reorder(samples, -N), N, label = samples), 
+                    data = outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples][N > 500]) + 
+    labs(x = NULL) + 
+    scale_y_log10() + 
+    theme_bw() +
+    theme(legend.position = "None", axis.text.x = element_blank())
+```
+ 
+```{r}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot() + stat_ecdf(aes(N)) +
+    scale_x_log10() + 
+    labs(x = NULL, y = NULL) + 
+    theme_bw()
+```
+```{r}
+outlier_introns[outlier == T][, .(N = length(unique(chrom))), by = samples][, N] %>% quantile(seq(0.5,1, .05))
+```
+
+
+
+#### Box plot
+
+There are `r outlier_introns[outlier == T, chrom] %>% unique %>% length` outlier introns. 
+
+```{r fig.width=10, fig.height=6, fig.cap="without filters"}
+
+excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by = samples][N > 500, samples] %>% as.character
+select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
+
+p2 = outlier_introns[chrom %in% select_chroms] %>% 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
+    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier), alpha = .4) +
+    geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
+                    data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
+    labs(x = NULL, y = "Intron excision ratio") + 
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 90))
+
+rasterize(p2, layers = "point", dpi=50)
+```
+
+```{r fig.width=10, fig.height=6}
+
+excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by = samples][N > 500, samples] %>% as.character
+select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
+
+p2 = outlier_introns[chrom %in% select_chroms] %>% 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
+    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier), alpha = .4) +
+    labs(x = NULL, y = "reads") + 
+    scale_y_log10() + 
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 90))
+
+rasterize(p2, layers = "point", dpi=50)
+```
+
+
+
+
+### QQ plot of intron p-values from 4 randomly selected samples
+
+<!-- by sample -->
+
+```{r  fig.caption = "QQ plot of randomly selected samples"}
+# QQ plot of min cluster p-values
+pick_4_samples = outlier_introns$samples %>% as.character %>% sample(4)
+qq = leafcutter::multiqq(structure(as.list(intron[, ..pick_4_samples]), names = pick_4_samples))
+rasterize(qq, layers = 'point', dpi = 50)
+```
+
+<!-- qq plot of selected introns (not shown) -->
+
+```{r fig.cap="QQ plot of introns with outlier splicing", include=FALSE, eval=FALSE}
+intron[cluster %in% outlier_clusters & rowMins < p_cutoff][
+  order(rowMins)][1:1000,] %>% 
+  .[, -c("cluster", "rowMins")] %>% 
+  column_to_rownames("chrom") %>% t %>% as.data.frame %>% as.list %>% 
+  leafcutter::multiqq(.) + theme_bw() + 
+    guides(color = guide_legend(nrow=2, title=NULL)) + 
+    theme(legend.position = "bottom")
+```
+
+
+
+
+
+### high outlier samples
+
+```{r}
+samples_set1 = outlier_introns[outlier == T][
+  , .(N = length(unique(chrom))), by = samples][
+    N > 500, samples
+  ] %>% as.character
+
+samples_set2 = outlier_introns[outlier == T][
+  , .(N = length(unique(chrom))), by = samples][
+    N < 100, samples
+  ] %>% as.character
+
+GTEx = fread("../code/resources/snaptron-yil/scripts/data/samples_gtex.tsv")
+
+```
+
+
+Samples with > 500 outliers
+
+```{r}
+GTEx[rail_id %in% samples_set1][
+  , .(rail_id, Sex, AGE, Histological_Type, Analyte_Type, SMPTHNTS, SMSMPSTE, SMSTYP, SMNABTCHT, TRTPTREF, DTHFUCOD, DTHMNNR)
+]
+
+```
+
+
+Samples with less than 100 outliers
+```{r}
+
+GTEx[rail_id %in% samples_set2][
+  , .(rail_id, Sex, AGE, Histological_Type, Analyte_Type, SMPTHNTS, SMSMPSTE, SMSTYP, SMNABTCHT, TRTPTREF, DTHFUCOD, DTHMNNR)
+] %>% head
+```
+
+```{r include=FALSE}
+rm(intron, counts, denom, outlier_introns, nums)
+gc()
+```
