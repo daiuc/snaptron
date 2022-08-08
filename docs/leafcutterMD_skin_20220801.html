@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Chao Dai" />
+
+
+<title>LeafcutterMD Analyses - GTEx Skin</title>
+
+<script src="site_libs/header-attrs-2.14/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">snaptron</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">LeafcutterMD Analyses - GTEx Skin</h1>
+<h4 class="author">Chao Dai</h4>
+<h4 class="date">updated 2022-08-08</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-08-08
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>snaptron/analysis/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed19900924code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(19900924)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed19900924code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(19900924)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr
+project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree68a2e10e9576c6e678bfe6fa62315aeb9a2382cctargetblank68a2e10a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/daiuc/snaptron/tree/68a2e10e9576c6e678bfe6fa62315aeb9a2382cc" target="_blank">68a2e10</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomdaiucsnaptrontree68a2e10e9576c6e678bfe6fa62315aeb9a2382cctargetblank68a2e10a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/daiuc/snaptron/tree/68a2e10e9576c6e678bfe6fa62315aeb9a2382cc" target="_blank">68a2e10</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .Rproj.user/
+    Ignored:    .ipynb_checkpoints/
+    Ignored:    analysis/.Rhistory
+    Ignored:    analysis/.ipynb_checkpoints/
+    Ignored:    code/.Rhistory
+    Ignored:    code/.ipynb_checkpoints/
+    Ignored:    code/.snakemake/
+    Ignored:    code/.test/
+    Ignored:    code/dag.svg
+    Ignored:    code/logs/
+    Ignored:    code/playground.R.ipynb
+    Ignored:    code/playground.py.ipynb
+    Ignored:    code/resources/
+    Ignored:    code/results/
+    Ignored:    code/slurm_logs/
+    Ignored:    code/test.R
+    Ignored:    code/test.py
+    Ignored:    slides/
+
+Untracked files:
+    Untracked:  notebooks/
+
+Unstaged changes:
+    Modified:   analysis/about.Rmd
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were
+made to the R Markdown
+(<code>analysis/leafcutterMD_skin_20220801.Rmd</code>) and HTML
+(<code>docs/leafcutterMD_skin_20220801.html</code>) files. If you’ve
+configured a remote Git repository (see <code>?wflow_git_remote</code>),
+click on the hyperlinks in the table below to view the files as they
+were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/daiuc/snaptron/blob/68a2e10e9576c6e678bfe6fa62315aeb9a2382cc/analysis/leafcutterMD_skin_20220801.Rmd" target="_blank">68a2e10</a>
+</td>
+<td>
+daiuc
+</td>
+<td>
+2022-08-08
+</td>
+<td>
+wflow_publish("leafcutterMD_skin_20220801.Rmd")
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<!-- ---------------------------------------------------- -->
+<div id="gtex-skin" class="section level1 tabset">
+<h1 class="tabset">GTEx Skin</h1>
+<div id="group0" class="section level2">
+<h2>group0</h2>
+<div id="intron-selection" class="section level3">
+<h3>Intron selection</h3>
+<p>An intron excision is considered outlier only if:</p>
+<ol style="list-style-type: decimal">
+<li>p-value of a given intron excision event &lt; 1e-08</li>
+<li><strong>AND</strong> total reads of the cluster &gt; 30</li>
+</ol>
+</div>
+<div id="outlier-introns-reads-and-denom-distribution"
+class="section level3">
+<h3>Outlier intron’s reads and denom distribution</h3>
+<p>Some introns have significantly larger amount of total reads (over
+10k). May consider set threshold of denominator &lt; 5000.
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Subsampling 100k introns, (all belongs to a cluster that has at least
+1 outlier event). Plot suggests no apparent correlation between p value
+and read counts or denominators.</p>
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Outlier splicing events include many splicing events with intron
+excision ratio = 1.</p>
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Some introns have very small ir deviations among samples, but
+leafcutterMD called one of these events having very significant
+p-values. For instance: the 5th intron.
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Take a look at distribution of <code>sd(ir)</code>
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Some samples have many more outlier splicing events
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="box-plot-with-filters" class="section level4">
+<h4>Box plot with filters</h4>
+<p>Consider further constrain outlier introns to:</p>
+<ul>
+<li>filter out introns with mean denom &gt; 5000</li>
+<li>filter out introns with sd(ir) &lt; 0.1</li>
+<li>remove samples that have over 500 outlier samples</li>
+</ul>
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-13-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="box-plot-without-filters" class="section level4">
+<h4>Box plot without filters</h4>
+<p>With out the additional <code>sd(ir) &gt; 0.1</code> and
+<code>denom &lt; 5000</code> and <code>samples</code> filters, there are
+7380 introns.</p>
+<div class="figure" style="text-align: center">
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-14-1.png" alt="without filters" width="960" />
+<p class="caption">
+without filters
+</p>
+</div>
+<div class="figure" style="text-align: center">
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-15-1.png" alt="without filters" width="960" />
+<p class="caption">
+without filters
+</p>
+</div>
+</div>
+</div>
+<div id="qq-plot-of-intron-p-values-from-4-randomly-selected-samples"
+class="section level3">
+<h3>QQ plot of intron p-values from 4 randomly selected samples</h3>
+<!-- by sample -->
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<!-- qq plot of selected introns (not shown) -->
+</div>
+<div id="high-outlier-samples" class="section level3">
+<h3>high outlier samples</h3>
+<p>Samples with &gt; 500 outliers</p>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["rail_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["AGE"],"name":[3],"type":["int"],"align":["right"]},{"label":["Histological_Type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Analyte_Type"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SMPTHNTS"],"name":[6],"type":["chr"],"align":["left"]},{"label":["SMSMPSTE"],"name":[7],"type":["chr"],"align":["left"]},{"label":["SMSTYP"],"name":[8],"type":["chr"],"align":["left"]},{"label":["SMNABTCHT"],"name":[9],"type":["chr"],"align":["left"]},{"label":["TRTPTREF"],"name":[10],"type":["chr"],"align":["left"]},{"label":["DTHFUCOD"],"name":[11],"type":["chr"],"align":["left"]},{"label":["DTHMNNR"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"50114","2":"female","3":"51","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"50191","2":"female","3":"62","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, minimal fat, squamous epithelium is ~50-70 microns","7":"Leg, left","8":"Normal","9":"RNA Extraction from Paxgene-derived Lysate Plate Based","10":"Actual Death","11":"smoke asphyxiation","12":"Accident"},{"1":"50469","2":"male","3":"52","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"probable overdose","12":"Undetermined"},{"1":"50534","2":"male","3":"64","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Cerebral vascular accident","12":"Natural"},{"1":"50777","2":"female","3":"45","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"50789","2":"male","3":"60","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Metabolic acidosis related to diabetic ketoacidosis","12":"Natural"},{"1":"51080","2":"male","3":"57","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Heart Disease","12":"Natural"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+Samples with less than 100 outliers
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["rail_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["AGE"],"name":[3],"type":["int"],"align":["right"]},{"label":["Histological_Type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Analyte_Type"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SMPTHNTS"],"name":[6],"type":["chr"],"align":["left"]},{"label":["SMSMPSTE"],"name":[7],"type":["chr"],"align":["left"]},{"label":["SMSTYP"],"name":[8],"type":["chr"],"align":["left"]},{"label":["SMNABTCHT"],"name":[9],"type":["chr"],"align":["left"]},{"label":["TRTPTREF"],"name":[10],"type":["chr"],"align":["left"]},{"label":["DTHFUCOD"],"name":[11],"type":["chr"],"align":["left"]},{"label":["DTHMNNR"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"50139","2":"male","3":"60","4":"Skin","5":"RNA:Total RNA","6":"6 pieces; residual adipose tissue comprises ~5-10%; squamous epithelium is 1.5-3% of thickness.","7":"Leg, left","8":"Normal","9":"RNA Extraction from Paxgene-derived Lysate Plate Based","10":"Actual Death","11":"probable  myocardial infarction","12":"Natural"},{"1":"50180","2":"female","3":"57","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, up to 10x4mm. Well trimmed.","7":"Skin just above pubic hair","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"CPA","12":"Natural"},{"1":"50183","2":"male","3":"55","4":"Skin","5":"RNA:Total RNA","6":"6 pieces,  ~7x3mm.  Squamous epithelium is ~2-3% thickness","7":"Leg, left","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"cardiac arrest","12":"Natural"},{"1":"50198","2":"male","3":"43","4":"Skin","5":"RNA:Total RNA","6":"6 pieces  ~7x2mm.  Up to  ~1mm layer of fat on dermal surface of several, delineated.  Squamous mucosa is ~2-3% of thickness","7":"Leg, right","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"Asyphyxiation","12":"Accident"},{"1":"50208","2":"male","3":"50","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, adherent fat on most sections up to ~0.5mm; squamous epithelium is ~30-40 microns","7":"Skin just above pubic hair","8":"Normal","9":"RNA Extraction from Paxgene-derived Lysate Plate Based","10":"Actual Death","11":"Intracranial hemmorhage","12":"Natural"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+</div>
+</div>
+<div id="group1" class="section level2">
+<h2>group1</h2>
+<div id="intron-selection-1" class="section level3">
+<h3>Intron selection</h3>
+<p>An intron excision is considered outlier only if:</p>
+<ol style="list-style-type: decimal">
+<li>p-value of a given intron excision event &lt; 1e-08</li>
+<li><strong>AND</strong> total reads of the cluster &gt; 30</li>
+</ol>
+</div>
+<div id="outlier-introns-reads-and-denom-distribution-1"
+class="section level3">
+<h3>Outlier intron’s reads and denom distribution</h3>
+<p>Some introns have significantly larger amount of total reads (over
+10k). May consider set threshold of denominator &lt; 5000.
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-27-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Subsampling 100k introns, (all belongs to a cluster that has at least
+1 outlier event). Plot suggests no apparent correlation between p value
+and read counts or denominators.</p>
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Outlier splicing events include many splicing events with intron
+excision ratio = 1.</p>
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Some introns have very small ir deviations among samples, but
+leafcutterMD called one of these events having very significant
+p-values. For instance: the 5th intron.
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-30-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Take a look at distribution of <code>sd(ir)</code>
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-31-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Some samples have many more outlier splicing events
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="box-plot-with-filters-1" class="section level4">
+<h4>Box plot with filters</h4>
+<p>Consider further constrain outlier introns to:</p>
+<ul>
+<li>filter out introns with mean denom &gt; 5000</li>
+<li>filter out introns with sd(ir) &lt; 0.1</li>
+<li>remove samples that have over 500 outlier samples</li>
+</ul>
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-33-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-34-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="box-plot-without-filters-1" class="section level4">
+<h4>Box plot without filters</h4>
+<p>With out the additional <code>sd(ir) &gt; 0.1</code> and
+<code>denom &lt; 5000</code> and <code>samples</code> filters, there are
+29124 introns.</p>
+<div class="figure" style="text-align: center">
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-35-1.png" alt="without filters" width="960" />
+<p class="caption">
+without filters
+</p>
+</div>
+<div class="figure" style="text-align: center">
+<img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-36-1.png" alt="without filters" width="960" />
+<p class="caption">
+without filters
+</p>
+</div>
+</div>
+</div>
+<div id="qq-plot-of-intron-p-values-from-4-randomly-selected-samples-1"
+class="section level3">
+<h3>QQ plot of intron p-values from 4 randomly selected samples</h3>
+<!-- by sample -->
+<p><img src="figure/leafcutterMD_skin_20220801.Rmd/unnamed-chunk-37-1.png" width="672" style="display: block; margin: auto;" /></p>
+<!-- qq plot of selected introns (not shown) -->
+</div>
+<div id="high-outlier-samples-1" class="section level3">
+<h3>high outlier samples</h3>
+<p>Samples with &gt; 500 outliers</p>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["rail_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["AGE"],"name":[3],"type":["int"],"align":["right"]},{"label":["Histological_Type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Analyte_Type"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SMPTHNTS"],"name":[6],"type":["chr"],"align":["left"]},{"label":["SMSMPSTE"],"name":[7],"type":["chr"],"align":["left"]},{"label":["SMSTYP"],"name":[8],"type":["chr"],"align":["left"]},{"label":["SMNABTCHT"],"name":[9],"type":["chr"],"align":["left"]},{"label":["TRTPTREF"],"name":[10],"type":["chr"],"align":["left"]},{"label":["DTHFUCOD"],"name":[11],"type":["chr"],"align":["left"]},{"label":["DTHMNNR"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"51067","2":"male","3":"53","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, up to 8x4mm; squamous epithelium is ~2.5-3% thickness.  Solar elastosis of papillary dermis","7":"Leg, left","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"SIGSW","12":"Suicide"},{"1":"51396","2":"female","3":"22","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Cardiovascular","12":"Natural"},{"1":"51443","2":"female","3":"67","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"heart disease","12":"Natural"},{"1":"51719","2":"male","3":"40","4":"Skin","5":"RNA:Total RNA","6":"6 pieces up to 7.7x2.6 mm; several sectioning lines and tissue tears","7":"Leg, right","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"51720","2":"male","3":"47","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"unknown","12":"Natural"},{"1":"51723","2":"male","3":"48","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"SIGSW","12":"Suicide"},{"1":"51726","2":"male","3":"52","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"51818","2":"male","3":"61","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"Heart disease","12":"Natural"},{"1":"51834","2":"male","3":"51","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"},{"1":"52035","2":"male","3":"59","4":"Skin","5":"RNA:Total RNA","6":"6 pieces   ~8x2mm.  Squamous epithelium is ~2-3% of thickness","7":"Leg, left","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"Blunt Injury","12":"Accident"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+Samples with less than 100 outliers
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["rail_id"],"name":[1],"type":["int"],"align":["right"]},{"label":["Sex"],"name":[2],"type":["chr"],"align":["left"]},{"label":["AGE"],"name":[3],"type":["int"],"align":["right"]},{"label":["Histological_Type"],"name":[4],"type":["chr"],"align":["left"]},{"label":["Analyte_Type"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SMPTHNTS"],"name":[6],"type":["chr"],"align":["left"]},{"label":["SMSMPSTE"],"name":[7],"type":["chr"],"align":["left"]},{"label":["SMSTYP"],"name":[8],"type":["chr"],"align":["left"]},{"label":["SMNABTCHT"],"name":[9],"type":["chr"],"align":["left"]},{"label":["TRTPTREF"],"name":[10],"type":["chr"],"align":["left"]},{"label":["DTHFUCOD"],"name":[11],"type":["chr"],"align":["left"]},{"label":["DTHMNNR"],"name":[12],"type":["chr"],"align":["left"]}],"data":[{"1":"51039","2":"male","3":"59","4":"Skin","5":"RNA:Total RNA","6":"NA","7":"NA","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"NA","12":"Natural"},{"1":"51104","2":"male","3":"21","4":"Skin","5":"RNA:Total RNA","6":"6 pieces up to 7x4 mm; thin remnant of subcutaneous fat","7":"Leg, right","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"Seizure","12":"Natural"},{"1":"51113","2":"female","3":"67","4":"Skin","5":"RNA:Total RNA","6":"6 pieces, up to 8x2mm; well trimmed but with central holes (artifacts)","7":"Leg, left","8":"Normal","9":"RNA isolation_PAXgene Tissue miRNA","10":"Actual Death","11":"subdural hematoma secondary to fall","12":"Accident"},{"1":"51124","2":"female","3":"52","4":"Skin","5":"RNA:Total RNA","6":"6 pieces up to 7x3 mm;","7":"Leg, left","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"anoxia secondary to hanging","12":"Suicide"},{"1":"51126","2":"male","3":"55","4":"Skin","5":"RNA:Total RNA","6":"6 pieces,   ~8.5x2mm.  Squamous epithelium is 2-3% of thickness","7":"Leg, left","8":"Normal","9":"RNA isolation_Trizol Manual (Cell Pellet)","10":"Actual Death","11":"ICH","12":"Natural"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre><code>R version 4.1.0 (2021-05-18)
+Platform: x86_64-conda-linux-gnu (64-bit)
+Running under: Ubuntu 20.04.2 LTS
+
+Matrix products: default
+BLAS/LAPACK: /scratch/midway2/chaodai/miniconda3/envs/smk/lib/libopenblasp-r0.3.18.so
+
+locale:
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] furrr_0.3.0       future_1.26.1     tictoc_1.0.1      DT_0.23          
+ [5] ggrepel_0.9.1     ggrastr_1.0.1     data.table_1.14.2 forcats_0.5.1    
+ [9] stringr_1.4.0     dplyr_1.0.9       purrr_0.3.4       readr_2.1.2      
+[13] tidyr_1.2.0       tibble_3.1.7      ggplot2_3.3.6     tidyverse_1.3.1  
+
+loaded via a namespace (and not attached):
+  [1] ggbeeswarm_0.6.0      colorspace_2.0-3      ellipsis_0.3.2       
+  [4] rprojroot_2.0.3       htmlTable_2.4.0       base64enc_0.1-3      
+  [7] fs_1.5.2              rstudioapi_0.13       rstan_2.21.5         
+ [10] listenv_0.8.0         farver_2.1.0          bit64_4.0.5          
+ [13] fansi_1.0.3           lubridate_1.8.0       xml2_1.3.3           
+ [16] codetools_0.2-18      splines_4.1.0         R.methodsS3_1.8.1    
+ [19] knitr_1.39            Formula_1.2-4         jsonlite_1.8.0       
+ [22] workflowr_1.7.0       broom_0.8.0           cluster_2.1.3        
+ [25] dbplyr_2.2.0          png_0.1-7             R.oo_1.24.0          
+ [28] compiler_4.1.0        httr_1.4.3            backports_1.4.1      
+ [31] assertthat_0.2.1      Matrix_1.4-1          fastmap_1.1.0        
+ [34] cli_3.3.0             later_1.3.0           prettyunits_1.1.1    
+ [37] htmltools_0.5.2       tools_4.1.0           gtable_0.3.0         
+ [40] glue_1.6.2            reshape2_1.4.4        Rcpp_1.0.8.3         
+ [43] cellranger_1.1.0      jquerylib_0.1.4       vctrs_0.4.1          
+ [46] iterators_1.0.14      xfun_0.31             ps_1.7.0             
+ [49] globals_0.15.0        rvest_1.0.2           lifecycle_1.0.1      
+ [52] scales_1.2.0          hms_1.1.1             promises_1.2.0.1     
+ [55] parallel_4.1.0        inline_0.3.19         RColorBrewer_1.1-3   
+ [58] yaml_2.3.5            gridExtra_2.3         loo_2.5.1            
+ [61] StanHeaders_2.21.0-7  sass_0.4.1            rpart_4.1.16         
+ [64] latticeExtra_0.6-29   stringi_1.7.6         highr_0.9            
+ [67] foreach_1.5.2         checkmate_2.1.0       pkgbuild_1.3.1       
+ [70] leafcutter_0.2.9      matrixStats_0.62.0    intervals_0.15.2     
+ [73] rlang_1.0.2           pkgconfig_2.0.3       evaluate_0.15        
+ [76] lattice_0.20-45       rstantools_2.2.0.9000 htmlwidgets_1.5.4    
+ [79] labeling_0.4.2        bit_4.0.4             processx_3.6.0       
+ [82] tidyselect_1.1.2      parallelly_1.32.0     plyr_1.8.7           
+ [85] magrittr_2.0.3        R6_2.5.1              generics_0.1.2       
+ [88] Hmisc_4.7-0           DBI_1.1.2             pillar_1.7.0         
+ [91] haven_2.5.0           whisker_0.4           foreign_0.8-82       
+ [94] withr_2.5.0           survival_3.3-1        nnet_7.3-17          
+ [97] modelr_0.1.8          crayon_1.5.1          utf8_1.2.2           
+[100] tzdb_0.3.0            rmarkdown_2.14        jpeg_0.1-9           
+[103] grid_4.1.0            readxl_1.4.0          callr_3.7.0          
+[106] git2r_0.30.1          reprex_2.0.1          digest_0.6.29        
+[109] httpuv_1.6.5          R.utils_2.11.0        RcppParallel_5.1.5   
+[112] stats4_4.1.0          munsell_0.5.0         beeswarm_0.4.0       
+[115] vipor_0.4.5           bslib_0.3.1          </code></pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
