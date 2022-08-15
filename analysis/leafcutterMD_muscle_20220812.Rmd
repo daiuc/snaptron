@@ -8,7 +8,7 @@ params:
     - group3
     p_cutoff: 1e-7
     denom_cutoff: 30
-    ir_dist_cutoff: 0.05
+    ir_dist_cutoff: 0.1
     gtex_tpm: "../code/resources/GTEx-downloads/gene_tpm_2017-06-05_v8_muscle_skeletal.gct.gz" # gtex rna-seq tpm matrix
 title: "LeafcutterMD Analyses - GTEx `r params$tissue`"
 author: "Chao Dai"
@@ -66,7 +66,7 @@ get_denom = function(frac_str) {
 
 # define function based on quantiles
 # the IR of the 96th quantile > 2 * SD of the IR of the first 95th quantile
-quantilePass = function(v, quantile.threshold = .95, sd.multiplier = 1){
+quantileHighPass = function(v, quantile.threshold = .95, sd.multiplier = 1){
   lower.v = v[which(v <= quantile(v, quantile.threshold))]
   lower.sd = sd(lower.v)
   
@@ -74,6 +74,18 @@ quantilePass = function(v, quantile.threshold = .95, sd.multiplier = 1){
   
   # if the median of 96th-100th is greather than 2*SD away from the 95th quantile, then pass
   pass.flag <- mean(higher.v) >= sd.multiplier * lower.sd + quantile(v, quantile.threshold)
+  return(pass.flag)
+}
+
+# on the flip side
+quantileLowPass = function(v, quantile.threshold = .05, sd.multiplier = 1){
+  higher.v = v[which(v >= quantile(v, quantile.threshold))]
+  higher.sd = sd(higher.v)
+  
+  lower.v = v[which(v < quantile(v, quantile.threshold))]
+  
+  # if the median of 96th-100th is greather than 2*SD away from the 95th quantile, then pass
+  pass.flag <- mean(lower.v) <= sd.multiplier * higher.sd + quantile(v, quantile.threshold)
   return(pass.flag)
 }
 
@@ -101,9 +113,11 @@ gtex.tpm = fread(params$gtex_tpm)
 
 <!-- ---------------------------------------------------- -->
 
+
+
+
+
 # GTEx `r params$tissue` {.tabset}
-
-
 
 ## `r params$group[[1]]`
 
@@ -224,32 +238,19 @@ excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by 
 select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
 
 p2 = outlier_introns[chrom %in% select_chroms] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir), outlier.alpha = 0) + 
     geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier), alpha = .4) +
     geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
                     data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
     labs(x = NULL, y = "Intron excision ratio") + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 
 rasterize(p2, layers = "point", dpi=50)
 ```
 
-```{r fig.width=10, fig.height=6}
 
-excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by = samples][N > 500, samples] %>% as.character
-select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
-
-p2 = outlier_introns[chrom %in% select_chroms] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier), alpha = .4) +
-    labs(x = NULL, y = "reads") + 
-    scale_y_log10() + 
-    theme_bw() +
-    theme(axis.text.x = element_text(angle = 90))
-
-rasterize(p2, layers = "point", dpi=50)
-```
 
 ### Further filter outlier introns by comparing excision quantiles
 
@@ -257,15 +258,28 @@ By definition, outlier splicing events are ones that occur only in a few individ
 
 - assumes that it occurs in only up to 5% of samples,
 - thus the excision ratio of the first 95% of samples should be largely different than that of the last 5% of samples
-- here, I will only consider the case where the first 95% of samples have much lower excision ratio, because the complementary set always exists for a intron cluster. But we only want to select the intron once. 
-- Specifically, an outlier intron is qualified only if the mean excision ratio of samples in the (95, 100] percentile is more than 2x sd away from the 95th percentile, where `sd` is estimated by (0,95] percentiles. 
+- Specifically, an outlier intron is qualified only if the mean excision ratio of samples in the (95, 100] percentile is more than 1x sd away from the 95th percentile, where `sd` is estimated by (0,95] percentiles. 
+- Equivalently, outliers in the lower end is also examined using the 5th percentile. 
 
 In addition, for any intron usage of a sample where excision ratio is 1 and observed read counts < 10, read counts and excision ratio is forced to 0. This helps remove inflated excision ratio of 1 under such scenarios.
 
 
 
 ```{r}
-qtPassed_chroms = outlier_introns[!samples %in% excl_samples, .(qtPass = quantilePass(ir)), by = chrom][qtPass == T, chrom] %>% unique
+outlier_introns = outlier_introns[!samples %in% excl_samples]
+
+outlier_introns[, `:=`(
+  highPass = quantileHighPass(ir),
+  lowPass = quantileLowPass(ir),
+  pct_rank = percent_rank(ir)
+), by = chrom]
+
+outlier_introns[, `:=`(
+  outlier2 = fcase(outlier == T & (pct_rank > .75 | pct_rank < .25), TRUE, default = F)
+)]
+
+# called outlier introns must be pass either the high or low scenario for quantile filters.
+qtPassed_chroms = intersect(outlier_introns[outlier == T, chrom], outlier_introns[highPass == T | lowPass == T, chrom])
 ```
 
 
@@ -276,29 +290,31 @@ In summary, the two box plots below plotted some of the outlier introns that sat
   1.  p-value of a given intron excision event \< `r scales::scientific(p_cutoff)`
   2.  **AND** total reads of the cluster \> `r denom_cutoff`
   3. **AND** intron excision ratio is at least `r params$ir_dist_cutoff` away from median
-  4. **AND** quantile filter described above
-  5. **AND** exclude outliers from extreme samples
+  4. **AND** outlier intron must pass quantile filter described above
+  5. **AND** an outlier event in a given sample must be in the top or bottom 5 percentiles in terms of intron excision ratio
+  6. **AND** exclude outliers from extreme samples
 
 
-```{r, fig.width=10, fig.height=6}
+```{r, fig.width=11, fig.height=6}
 
 x = qtPassed_chroms[sample(1:length(qtPassed_chroms), 50)]
 
 outlier_introns[chrom %in% x] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier, shape = outlier), alpha = .4, position = "jitter") +
-    geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
-                    data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir, group = chrom), outlier.alpha = 0) + 
+    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier2, shape = outlier2), 
+               alpha = .4, position = position_jitter(height = 0)) +
     labs(x = NULL, y = "Intron excision ratio") + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 ```
 
 ```{r, fig.width=10, fig.height=6}
 outlier_introns[chrom %in% x] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier, shape = outlier), alpha = .4, position = "jitter") +
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc), outlier.alpha = 0) + 
+    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier2, shape = outlier2), alpha = .4, position = "jitter") +
     scale_y_log10() + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     labs(x = NULL, y = "reads") + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
@@ -500,32 +516,19 @@ excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by 
 select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
 
 p2 = outlier_introns[chrom %in% select_chroms] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir), outlier.alpha = 0) + 
     geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier), alpha = .4) +
     geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
                     data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
     labs(x = NULL, y = "Intron excision ratio") + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 
 rasterize(p2, layers = "point", dpi=50)
 ```
 
-```{r fig.width=10, fig.height=6}
 
-excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by = samples][N > 500, samples] %>% as.character
-select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
-
-p2 = outlier_introns[chrom %in% select_chroms] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier), alpha = .4) +
-    labs(x = NULL, y = "reads") + 
-    scale_y_log10() + 
-    theme_bw() +
-    theme(axis.text.x = element_text(angle = 90))
-
-rasterize(p2, layers = "point", dpi=50)
-```
 
 ### Further filter outlier introns by comparing excision quantiles
 
@@ -533,15 +536,28 @@ By definition, outlier splicing events are ones that occur only in a few individ
 
 - assumes that it occurs in only up to 5% of samples,
 - thus the excision ratio of the first 95% of samples should be largely different than that of the last 5% of samples
-- here, I will only consider the case where the first 95% of samples have much lower excision ratio, because the complementary set always exists for a intron cluster. But we only want to select the intron once. 
-- Specifically, an outlier intron is qualified only if the mean excision ratio of samples in the (95, 100] percentile is more than 2x sd away from the 95th percentile, where `sd` is estimated by (0,95] percentiles. 
+- Specifically, an outlier intron is qualified only if the mean excision ratio of samples in the (95, 100] percentile is more than 1x sd away from the 95th percentile, where `sd` is estimated by (0,95] percentiles. 
+- Equivalently, outliers in the lower end is also examined using the 5th percentile. 
 
 In addition, for any intron usage of a sample where excision ratio is 1 and observed read counts < 10, read counts and excision ratio is forced to 0. This helps remove inflated excision ratio of 1 under such scenarios.
 
 
 
 ```{r}
-qtPassed_chroms = outlier_introns[!samples %in% excl_samples, .(qtPass = quantilePass(ir)), by = chrom][qtPass == T, chrom] %>% unique
+outlier_introns = outlier_introns[!samples %in% excl_samples]
+
+outlier_introns[, `:=`(
+  highPass = quantileHighPass(ir),
+  lowPass = quantileLowPass(ir),
+  pct_rank = percent_rank(ir)
+), by = chrom]
+
+outlier_introns[, `:=`(
+  outlier2 = fcase(outlier == T & (pct_rank > .75 | pct_rank < .25), TRUE, default = F)
+)]
+
+# called outlier introns must be pass either the high or low scenario for quantile filters.
+qtPassed_chroms = intersect(outlier_introns[outlier == T, chrom], outlier_introns[highPass == T | lowPass == T, chrom])
 ```
 
 
@@ -552,35 +568,35 @@ In summary, the two box plots below plotted some of the outlier introns that sat
   1.  p-value of a given intron excision event \< `r scales::scientific(p_cutoff)`
   2.  **AND** total reads of the cluster \> `r denom_cutoff`
   3. **AND** intron excision ratio is at least `r params$ir_dist_cutoff` away from median
-  4. **AND** quantile filter described above
-  5. **AND** exclude outliers from extreme samples
+  4. **AND** outlier intron must pass quantile filter described above
+  5. **AND** an outlier event in a given sample must be in the top or bottom 5 percentiles in terms of intron excision ratio
+  6. **AND** exclude outliers from extreme samples
 
 
-```{r, fig.width=10, fig.height=6}
+```{r, fig.width=11, fig.height=6}
 
 x = qtPassed_chroms[sample(1:length(qtPassed_chroms), 50)]
 
 outlier_introns[chrom %in% x] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier, shape = outlier), alpha = .4, position = "jitter") +
-    geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
-                    data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir, group = chrom), outlier.alpha = 0) + 
+    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier2, shape = outlier2), 
+               alpha = .4, position = position_jitter(height = 0)) +
     labs(x = NULL, y = "Intron excision ratio") + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 ```
 
 ```{r, fig.width=10, fig.height=6}
 outlier_introns[chrom %in% x] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier, shape = outlier), alpha = .4, position = "jitter") +
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc), outlier.alpha = 0) + 
+    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier2, shape = outlier2), alpha = .4, position = "jitter") +
     scale_y_log10() + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     labs(x = NULL, y = "reads") + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 ```
-
-
 
 outlier per sample after all filters.
 
@@ -597,6 +613,7 @@ Number of outlier samples per outlier intron
 outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(samples))), by = chrom] %>% 
   ggplot + stat_ecdf(aes(N))
 ```
+
 
 
 ### extreme samples: `r excl_samples`
@@ -653,6 +670,9 @@ intersect(set1_gtex_ids, colnames(gtex.tpm))
 rm(intron, counts, denom, outlier_introns, nums)
 gc()
 ```
+
+
+
 
 
 
@@ -776,32 +796,19 @@ excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by 
 select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
 
 p2 = outlier_introns[chrom %in% select_chroms] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir), outlier.alpha = 0) + 
     geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier), alpha = .4) +
     geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
                     data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
     labs(x = NULL, y = "Intron excision ratio") + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 
 rasterize(p2, layers = "point", dpi=50)
 ```
 
-```{r fig.width=10, fig.height=6}
 
-excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by = samples][N > 500, samples] %>% as.character
-select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
-
-p2 = outlier_introns[chrom %in% select_chroms] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier), alpha = .4) +
-    labs(x = NULL, y = "reads") + 
-    scale_y_log10() + 
-    theme_bw() +
-    theme(axis.text.x = element_text(angle = 90))
-
-rasterize(p2, layers = "point", dpi=50)
-```
 
 ### Further filter outlier introns by comparing excision quantiles
 
@@ -809,15 +816,28 @@ By definition, outlier splicing events are ones that occur only in a few individ
 
 - assumes that it occurs in only up to 5% of samples,
 - thus the excision ratio of the first 95% of samples should be largely different than that of the last 5% of samples
-- here, I will only consider the case where the first 95% of samples have much lower excision ratio, because the complementary set always exists for a intron cluster. But we only want to select the intron once. 
-- Specifically, an outlier intron is qualified only if the mean excision ratio of samples in the (95, 100] percentile is more than 2x sd away from the 95th percentile, where `sd` is estimated by (0,95] percentiles. 
+- Specifically, an outlier intron is qualified only if the mean excision ratio of samples in the (95, 100] percentile is more than 1x sd away from the 95th percentile, where `sd` is estimated by (0,95] percentiles. 
+- Equivalently, outliers in the lower end is also examined using the 5th percentile. 
 
 In addition, for any intron usage of a sample where excision ratio is 1 and observed read counts < 10, read counts and excision ratio is forced to 0. This helps remove inflated excision ratio of 1 under such scenarios.
 
 
 
 ```{r}
-qtPassed_chroms = outlier_introns[!samples %in% excl_samples, .(qtPass = quantilePass(ir)), by = chrom][qtPass == T, chrom] %>% unique
+outlier_introns = outlier_introns[!samples %in% excl_samples]
+
+outlier_introns[, `:=`(
+  highPass = quantileHighPass(ir),
+  lowPass = quantileLowPass(ir),
+  pct_rank = percent_rank(ir)
+), by = chrom]
+
+outlier_introns[, `:=`(
+  outlier2 = fcase(outlier == T & (pct_rank > .75 | pct_rank < .25), TRUE, default = F)
+)]
+
+# called outlier introns must be pass either the high or low scenario for quantile filters.
+qtPassed_chroms = intersect(outlier_introns[outlier == T, chrom], outlier_introns[highPass == T | lowPass == T, chrom])
 ```
 
 
@@ -828,34 +848,35 @@ In summary, the two box plots below plotted some of the outlier introns that sat
   1.  p-value of a given intron excision event \< `r scales::scientific(p_cutoff)`
   2.  **AND** total reads of the cluster \> `r denom_cutoff`
   3. **AND** intron excision ratio is at least `r params$ir_dist_cutoff` away from median
-  4. **AND** quantile filter described above
-  5. **AND** exclude outliers from extreme samples
+  4. **AND** outlier intron must pass quantile filter described above
+  5. **AND** an outlier event in a given sample must be in the top or bottom 5 percentiles in terms of intron excision ratio
+  6. **AND** exclude outliers from extreme samples
 
 
-```{r, fig.width=10, fig.height=6}
+```{r, fig.width=11, fig.height=6}
 
 x = qtPassed_chroms[sample(1:length(qtPassed_chroms), 50)]
 
 outlier_introns[chrom %in% x] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier, shape = outlier), alpha = .4, position = "jitter") +
-    geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
-                    data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir, group = chrom), outlier.alpha = 0) + 
+    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier2, shape = outlier2), 
+               alpha = .4, position = position_jitter(height = 0)) +
     labs(x = NULL, y = "Intron excision ratio") + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 ```
 
 ```{r, fig.width=10, fig.height=6}
 outlier_introns[chrom %in% x] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier, shape = outlier), alpha = .4, position = "jitter") +
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc), outlier.alpha = 0) + 
+    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier2, shape = outlier2), alpha = .4, position = "jitter") +
     scale_y_log10() + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     labs(x = NULL, y = "reads") + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 ```
-
 
 outlier per sample after all filters.
 
@@ -872,6 +893,7 @@ Number of outlier samples per outlier intron
 outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(samples))), by = chrom] %>% 
   ggplot + stat_ecdf(aes(N))
 ```
+
 
 
 ### extreme samples: `r excl_samples`
@@ -928,6 +950,9 @@ intersect(set1_gtex_ids, colnames(gtex.tpm))
 rm(intron, counts, denom, outlier_introns, nums)
 gc()
 ```
+
+
+
 
 
 
@@ -1051,32 +1076,19 @@ excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by 
 select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
 
 p2 = outlier_introns[chrom %in% select_chroms] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir), outlier.alpha = 0) + 
     geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier), alpha = .4) +
     geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
                     data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
     labs(x = NULL, y = "Intron excision ratio") + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 
 rasterize(p2, layers = "point", dpi=50)
 ```
 
-```{r fig.width=10, fig.height=6}
 
-excl_samples = outlier_introns[ outlier == T, .( N = length(unique(chrom))), by = samples][N > 500, samples] %>% as.character
-select_chroms = outlier_introns[!samples %in% excl_samples][order(p), chrom] %>% unique %>% head(50)
-
-p2 = outlier_introns[chrom %in% select_chroms] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier), alpha = .4) +
-    labs(x = NULL, y = "reads") + 
-    scale_y_log10() + 
-    theme_bw() +
-    theme(axis.text.x = element_text(angle = 90))
-
-rasterize(p2, layers = "point", dpi=50)
-```
 
 ### Further filter outlier introns by comparing excision quantiles
 
@@ -1084,15 +1096,28 @@ By definition, outlier splicing events are ones that occur only in a few individ
 
 - assumes that it occurs in only up to 5% of samples,
 - thus the excision ratio of the first 95% of samples should be largely different than that of the last 5% of samples
-- here, I will only consider the case where the first 95% of samples have much lower excision ratio, because the complementary set always exists for a intron cluster. But we only want to select the intron once. 
-- Specifically, an outlier intron is qualified only if the mean excision ratio of samples in the (95, 100] percentile is more than 2x sd away from the 95th percentile, where `sd` is estimated by (0,95] percentiles. 
+- Specifically, an outlier intron is qualified only if the mean excision ratio of samples in the (95, 100] percentile is more than 1x sd away from the 95th percentile, where `sd` is estimated by (0,95] percentiles. 
+- Equivalently, outliers in the lower end is also examined using the 5th percentile. 
 
 In addition, for any intron usage of a sample where excision ratio is 1 and observed read counts < 10, read counts and excision ratio is forced to 0. This helps remove inflated excision ratio of 1 under such scenarios.
 
 
 
 ```{r}
-qtPassed_chroms = outlier_introns[!samples %in% excl_samples, .(qtPass = quantilePass(ir)), by = chrom][qtPass == T, chrom] %>% unique
+outlier_introns = outlier_introns[!samples %in% excl_samples]
+
+outlier_introns[, `:=`(
+  highPass = quantileHighPass(ir),
+  lowPass = quantileLowPass(ir),
+  pct_rank = percent_rank(ir)
+), by = chrom]
+
+outlier_introns[, `:=`(
+  outlier2 = fcase(outlier == T & (pct_rank > .75 | pct_rank < .25), TRUE, default = F)
+)]
+
+# called outlier introns must be pass either the high or low scenario for quantile filters.
+qtPassed_chroms = intersect(outlier_introns[outlier == T, chrom], outlier_introns[highPass == T | lowPass == T, chrom])
 ```
 
 
@@ -1103,35 +1128,35 @@ In summary, the two box plots below plotted some of the outlier introns that sat
   1.  p-value of a given intron excision event \< `r scales::scientific(p_cutoff)`
   2.  **AND** total reads of the cluster \> `r denom_cutoff`
   3. **AND** intron excision ratio is at least `r params$ir_dist_cutoff` away from median
-  4. **AND** quantile filter described above
-  5. **AND** exclude outliers from extreme samples
+  4. **AND** outlier intron must pass quantile filter described above
+  5. **AND** an outlier event in a given sample must be in the top or bottom 5 percentiles in terms of intron excision ratio
+  6. **AND** exclude outliers from extreme samples
 
 
-```{r, fig.width=10, fig.height=6}
+```{r, fig.width=11, fig.height=6}
 
 x = qtPassed_chroms[sample(1:length(qtPassed_chroms), 50)]
 
 outlier_introns[chrom %in% x] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier, shape = outlier), alpha = .4, position = "jitter") +
-    geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
-                    data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir, group = chrom), outlier.alpha = 0) + 
+    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier2, shape = outlier2), 
+               alpha = .4, position = position_jitter(height = 0)) +
     labs(x = NULL, y = "Intron excision ratio") + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 ```
 
 ```{r, fig.width=10, fig.height=6}
 outlier_introns[chrom %in% x] %>% 
-  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc)) + 
-    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier, shape = outlier), alpha = .4, position = "jitter") +
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), rc), outlier.alpha = 0) + 
+    geom_point(aes(fct_reorder(chrom, p, min), rc, color = outlier2, shape = outlier2), alpha = .4, position = "jitter") +
     scale_y_log10() + 
+    guides(color = guide_legend(override.aes = list(alpha = 1, size = 2))) + 
     labs(x = NULL, y = "reads") + 
     theme_bw() +
     theme(axis.text.x = element_text(angle = 90))
 ```
-
-
 
 outlier per sample after all filters.
 
@@ -1148,6 +1173,7 @@ Number of outlier samples per outlier intron
 outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(samples))), by = chrom] %>% 
   ggplot + stat_ecdf(aes(N))
 ```
+
 
 
 ### extreme samples: `r excl_samples`
@@ -1204,3 +1230,4 @@ intersect(set1_gtex_ids, colnames(gtex.tpm))
 rm(intron, counts, denom, outlier_introns, nums)
 gc()
 ```
+
