@@ -304,6 +304,21 @@ outlier_introns[chrom %in% x] %>%
     theme(axis.text.x = element_text(angle = 90))
 ```
 
+outlier per sample after all filters.
+
+```{r}
+outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot()  + geom_col(aes(fct_reorder(samples, -N), N, fill = samples)) + 
+    labs(x = NULL) + 
+    scale_y_log10() + 
+    theme(legend.position = "None", axis.text.x = element_blank())
+```
+
+Number of outlier samples per outlier intron
+```{r}
+outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(samples))), by = chrom] %>% 
+  ggplot + stat_ecdf(aes(N))
+```
 
 
 
@@ -567,6 +582,22 @@ outlier_introns[chrom %in% x] %>%
 
 
 
+outlier per sample after all filters.
+
+```{r}
+outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot()  + geom_col(aes(fct_reorder(samples, -N), N, fill = samples)) + 
+    labs(x = NULL) + 
+    scale_y_log10() + 
+    theme(legend.position = "None", axis.text.x = element_blank())
+```
+
+Number of outlier samples per outlier intron
+```{r}
+outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(samples))), by = chrom] %>% 
+  ggplot + stat_ecdf(aes(N))
+```
+
 
 ### extreme samples: `r excl_samples`
 
@@ -826,6 +857,21 @@ outlier_introns[chrom %in% x] %>%
 ```
 
 
+outlier per sample after all filters.
+
+```{r}
+outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot()  + geom_col(aes(fct_reorder(samples, -N), N, fill = samples)) + 
+    labs(x = NULL) + 
+    scale_y_log10() + 
+    theme(legend.position = "None", axis.text.x = element_blank())
+```
+
+Number of outlier samples per outlier intron
+```{r}
+outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(samples))), by = chrom] %>% 
+  ggplot + stat_ecdf(aes(N))
+```
 
 
 ### extreme samples: `r excl_samples`
@@ -1086,6 +1132,22 @@ outlier_introns[chrom %in% x] %>%
 ```
 
 
+
+outlier per sample after all filters.
+
+```{r}
+outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(chrom))), by = samples] %>% 
+  ggplot()  + geom_col(aes(fct_reorder(samples, -N), N, fill = samples)) + 
+    labs(x = NULL) + 
+    scale_y_log10() + 
+    theme(legend.position = "None", axis.text.x = element_blank())
+```
+
+Number of outlier samples per outlier intron
+```{r}
+outlier_introns[ chrom %in% qtPassed_chroms & outlier == T & !samples %in% excl_samples][, .(N = length(unique(samples))), by = chrom] %>% 
+  ggplot + stat_ecdf(aes(N))
+```
 
 
 ### extreme samples: `r excl_samples`
