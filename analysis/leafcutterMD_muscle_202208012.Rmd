@@ -80,7 +80,7 @@ quantilePass = function(v, quantile.threshold = .95, sd.multiplier = 2){
 # or also bring in the denominator critiera,
 # such that quantiles are only computed on samples with at least certain read counts
 # not used 
-quantilePass2 = function(dt, quantile.threshold = .95, sd.multiplier = 2){
+quantilePass2 = function(dt, quantile.threshold = .95, sd.multiplier = 1){
   dt = dt[denom > 30]
   v = dt[, ir]
   lower.v = v[which(v <= quantile(v, quantile.threshold))]
