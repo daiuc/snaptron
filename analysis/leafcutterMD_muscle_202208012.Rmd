@@ -66,7 +66,7 @@ get_denom = function(frac_str) {
 
 # define function based on quantiles
 # the IR of the 96th quantile > 2 * SD of the IR of the first 95th quantile
-quantilePass = function(v, quantile.threshold = .95, sd.multiplier = 2){
+quantilePass = function(v, quantile.threshold = .95, sd.multiplier = 1){
   lower.v = v[which(v <= quantile(v, quantile.threshold))]
   lower.sd = sd(lower.v)
   
@@ -80,18 +80,18 @@ quantilePass = function(v, quantile.threshold = .95, sd.multiplier = 2){
 # or also bring in the denominator critiera,
 # such that quantiles are only computed on samples with at least certain read counts
 # not used 
-quantilePass2 = function(dt, quantile.threshold = .95, sd.multiplier = 1){
-  dt = dt[denom > 30]
-  v = dt[, ir]
-  lower.v = v[which(v <= quantile(v, quantile.threshold))]
-  lower.sd = sd(lower.v)
-  
-  higher.v = v[which(v > quantile(v, quantile.threshold))]
-  
-  # if the median of 96th-100th is greather than 2*SD away from the 95th quantile, then pass
-  pass.flag <- median(higher.v) >= sd.multiplier * lower.sd + quantile(v, quantile.threshold)
-  return(pass.flag)
-}
+# quantilePass2 = function(dt, quantile.threshold = .95, sd.multiplier = 1){
+#   dt = dt[denom > 30]
+#   v = dt[, ir]
+#   lower.v = v[which(v <= quantile(v, quantile.threshold))]
+#   lower.sd = sd(lower.v)
+#   
+#   higher.v = v[which(v > quantile(v, quantile.threshold))]
+#   
+#   # if the median of 96th-100th is greather than 2*SD away from the 95th quantile, then pass
+#   pass.flag <- median(higher.v) >= sd.multiplier * lower.sd + quantile(v, quantile.threshold)
+#   return(pass.flag)
+# }
 ```
 
 ```{r}
