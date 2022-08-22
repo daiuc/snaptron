@@ -66,12 +66,12 @@ get_denom = function(frac_str) {
 
 
 
-## `r params$group[[1]]`
+## `r params$group[[3]]`
 
 ```{r}
 # load Bladder intron level pvals
 tissue = params$tissue
-group = params$group[[1]]
+group = params$group[[3]]
 p_cutoff = as.numeric(params$p_cutoff)
 denom_cutoff = as.numeric(params$denom_cutoff)
 ir_dist_cutoff = as.numeric(params$ir_dist_cutoff)
@@ -251,6 +251,67 @@ p2 = outlier_introns[chrom %in% select_chroms] %>%
 rasterize(p2, layers = "point", dpi=50)
 ```
 
+### Outlier introns dug deeper
+
+```{r}
+
+# select low end and high end of ratios
+outlier_introns[, .(N_ir_LOW = (ir == 0), N_ir_HIGH = (ir > .05), ir), by = .(chrom, samples)
+                ][, .(N_ir_LOW = sum(N_ir_LOW), N_ir_HIGH = sum(N_ir_HIGH)), by = chrom
+                  ][order(N_ir_LOW)] %>% 
+  ggplot() + geom_point(aes(N_ir_LOW, N_ir_HIGH, color = (N_ir_LOW > 95 & N_ir_HIGH< 5)), alpha =.2)
+```
+
+```{r}
+outlier_introns[, .(N_ir_LOW = (ir == 0), N_ir_HIGH = (ir > .05), ir), by = .(chrom, samples)
+                ][, .(N_ir_LOW = sum(N_ir_LOW), N_ir_HIGH = sum(N_ir_HIGH)), by = chrom
+                  ][N_ir_LOW + N_ir_HIGH < 50]
+```
+```{r}
+outlier_introns[chrom %in% "chr15:76225930:76227138:clu_58397_-"]
+```
+
+
+```{r}
+select_introns2 = outlier_introns[, .(N_ir_0 = (ir == 0), N_ir_gt5 = (ir > .05), ir), by = .(chrom, samples)
+                ][, .(N_ir_0 = sum(N_ir_0), N_ir_gt5 = sum(N_ir_gt5)), by = chrom
+                  ][order(-N_ir_0, N_ir_gt5)
+                    ][N_ir_0 > 95 & N_ir_gt5 < 4]
+select_introns2
+```
+```{r}
+outlier_introns[chrom %in% select_introns2$chrom[1:50]] %>% 
+  ggplot() + geom_boxplot(aes(fct_reorder(chrom, p, min), ir)) + 
+    geom_point(aes(fct_reorder(chrom, p, min), ir, color = outlier), alpha = .4) +
+    geom_text_repel(aes(fct_reorder(chrom, p, min), ir, label = samples), 
+                    data = outlier_introns[chrom %in% select_chroms & outlier == T & ir == 0]) + 
+    labs(x = NULL, y = "Intron excision ratio") + 
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 90))
+```
+
+
+
+
+
+```{r}
+outlier_introns[, .(N_ir_1 = (ir > .6), N_ir_lt5 = (ir < .1 & ir > 0), ir), by = .(chrom, samples)
+                ][, .(N_ir_1 = sum(N_ir_1), N_ir_lt5 = sum(N_ir_lt5)), by = chrom
+                  ][order(-N_ir_1, N_ir_lt5)
+                    ][N_ir_1 > 95 & N_ir_lt5 > 0]
+```
+```{r}
+counts[chrom %in% c("chr8:123514334:123531898:clu_199614_-")]
+outlier_introns[chrom %in% c("chr8:123514334:123531898:clu_199614_-") & ir < .1]
+```
+
+
+```{r}
+counts[chrom %in% c("chr1:223954668:223961168:clu_604817_-", "chr6:32186475:32186604:clu_703502_-")]
+outlier_introns[chrom %in% c("chr1:223954668:223961168:clu_604817_-", "chr6:32186475:32186604:clu_703502_-")][
+  order(chrom, -ir)
+]
+```
 
 
 

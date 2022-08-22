@@ -1,0 +1,62 @@
+---
+title: "Data prep updates"
+date: 22-08-09
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(include = F, warning = F, message = F, echo = F)
+
+library(data.table)
+library(tidyverse)
+library(DT)
+
+```
+
+```{r}
+all_perind_lookup = fread("../code/resources/All_perind_rail_id_tissue_type_lookup.tsv")
+
+```
+
+
+## 
+
+```{r, include=F}
+all_perind_lookup[, .N, by = .(ds)] %>% knitr::kable(format = "html")
+```
+
+## Samples processed (partially)
+
+<br>
+<br>
+
+Number of tissue types:
+
+  - GTEx: 31
+  - TCGA: 26
+  - Other SRAs: 4508 (tissue info not streamlined)
+
+<br>
+<br>
+
+Number of Samples:
+
+  - GTEx: `r all_perind_lookup[, .N, by = .(ds)][ds == "GTEx", N]`
+  - TCGA: `r all_perind_lookup[, .N, by = .(ds)][ds == "TCGA", N]`
+  - Other SRAs: `r all_perind_lookup[, .N, by = .(ds)][ds == "srav", N]`
+
+
+
+```{r, include=T}
+
+all_perind_lookup[
+  , .(.N), by = .(ds)
+]
+```
+
+## Processing procedure
+
+```{r, include=TRUE}
+knitr::include_graphics("../docs/assets/leafcutterMD-dag.svg", error = F)
+```
+
